@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pink Magic 抽獎活動 🎟️</title>
+    <title>小卡奴抽獎活動 🎟️</title>
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #fff0f5; text-align: center; color: #d02090; margin: 0; padding: 20px; }
         .container { max-width: 500px; margin: auto; background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         img { width: 100%; border-radius: 15px; margin-bottom: 20px; }
         h1 { font-size: 26px; margin-bottom: 10px; color: #ff69b4; }
         .prize { font-size: 18px; font-weight: bold; color: #db7093; margin-bottom: 20px; }
-        .info-box { background: #fff9fb; border: 1px dashed #ffc0cb; padding: 15px; border-radius: 10px; text-align: left; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+        .info-box { background: #fff9fb; border: 1px dashed #ffc0cb; padding: 15px; border-radius: 10px; text-align: left; font-size: 15px; line-height: 1.6; margin-bottom: 20px; color: #d02090; }
         .stat { background: #ffeff2; padding: 12px; border-radius: 10px; margin: 15px 0; font-weight: bold; color: #ff1493; border: 1px solid #ffc0cb; }
         input { width: 85%; padding: 12px; margin: 10px 0; border: 2px solid #ffc0cb; border-radius: 10px; outline: none; text-align: center; font-size: 16px; }
         input:focus { border-color: #ff69b4; box-shadow: 0 0 5px rgba(255, 105, 180, 0.3); }
-        #message { margin-top: 15px; font-size: 14px; min-height: 20px; }
-        .notice { font-size: 12px; color: #999; margin-top: 10px; }
+        #message { margin-top: 15px; font-size: 15px; min-height: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -23,14 +22,14 @@
 <div class="container">
     <img src="IMG_9737.jpeg" alt="Pink Magic Raffle">
     
-    <h1>Pink Magic 抽獎登記 🎟️</h1>
-    <div class="prize">🎁 抽獎品項：Pink Magic 粉色普通盤（空專）</div>
+    <h1>小卡奴抽獎活動 🎟️</h1>
+    <div class="prize">🎁 抽獎品項：Pink Magic 粉色空專</div>
     
     <div class="info-box">
-        📅 <b>活動時間：</b>2026/04/15 ～ 2026/04/30<br>
-        ✅ <b>登記規則：</b>每天限登記一次<br>
-        ⚠️ <b>資格限定：</b>僅限有私訊領取過連結的 Threads 帳號<br>
-        💡 <b>操作方式：</b>輸入 ID 後按下「Enter」鍵即可送出
+        📅 <b>時間：</b>4/15 - 4/30<br>
+        ✅ <b>規則：</b>每天可以登記一次<br>
+        ⚠️ <b>資格：</b>限有跟我私訊領取圖鑑連結的帳號（我會人工篩選❤️）<br>
+        💡 <b>操作：</b>輸入 Threads ID 後按下「Enter」鍵即可送出
     </div>
     
     <div class="stat">✨ 目前已累積登記：<span id="currentCount">...</span> 人次</div>
@@ -38,7 +37,6 @@
     <input type="text" id="threadsId" placeholder="輸入 Threads ID 並按 Enter">
     
     <div id="message"></div>
-    <p class="notice">※ 系統將自動核對帳號資格，非限定帳號將不計入抽獎 ※</p>
 </div>
 
 <script>
@@ -92,7 +90,7 @@
         .then(res => res.json())
         .then(response => {
             if (response.result === 'success') {
-                msgDiv.innerHTML = '<span style="color:green; font-weight:bold;">成功登記！祝你抽中粉色大雲 🌸</span>';
+                msgDiv.innerHTML = '<span style="color:green;">成功登記！祝你抽中粉色大雲 🌸</span>';
                 document.getElementById('currentCount').innerText = response.count;
                 idInput.value = '';
             } else {
