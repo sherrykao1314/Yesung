@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Magic 抽獎🎟️</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #fff0f5; text-align: center; color: #d02090; margin: 0; padding: 20px; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        img { width: 100%; border-radius: 15px; margin-bottom: 20px; }
+        h1 { font-size: 24px; }
+        .stat { background: #ffc0cb; padding: 10px; border-radius: 10px; margin: 15px 0; font-weight: bold; }
+        input { width: 80%; padding: 12px; margin: 10px 0; border: 2px solid #ffc0cb; border-radius: 10px; outline: none; }
+        button { background-color: #ff69b4; color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #db7093; }
+        #message { margin-top: 15px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="IMG_9737.jpeg" alt="Pink Magic">
+    
+    <h1>Pink Magic 抽獎登記 🎟️</h1>
+    <p>輸入你的 Threads ID 參與抽獎</p>
+    
+    <div class="stat">目前已累積登記：<span id="currentCount">...</span> 人次</div>
+    
+    <input type="text" id="threadsId" placeholder="請輸入 Threads ID (例如: @username)">
+    <br>
+    <button onclick="submitForm()">立即登記</button>
+    
+    <div id="message"></div>
+</div>
+
+<script>
+    const scriptURL = '你的APPS_SCRIPT網頁應用程式網址'; // <--- 請貼上剛才複製的網址
+
+    // 頁面載入時取得目前人數
+    window.onload = () => {
+        fetch(scriptURL)
+        .then(res => res.json())
+        .then(data => { document.getElementById('currentCount').innerText = data.count; })
+        .catch(err => console.error('無法取得人數', err));
+    };
+
+    function submitForm() {
+        const idInput = document.getElementById('threadsId');
+        const msgDiv = document.getElementById('message');
+        const id = idInput.value.trim();
+
+        if (!id) {
+            alert('請輸入 Threads ID');
+            return;
+        }
+
+        msgDiv.innerText = '處理中...';
+        
+        fetch(scriptURL, {
+            method: 'POST',
+            body: JSON.stringify({ threadsId: id }),
+        })
+        .then(res => res.json())
+        .then(response => {
+            if (response.result === 'success') {
+                msgDiv.innerHTML = '<span style="color:green">登記成功！祝你中獎 🌸</span>';
+                document.getElementById('currentCount').innerText = response.count;
+                idInput.value = '';
+            } else {
+                msgDiv.innerHTML = `<span style="color:red">${response.message}</span>`;
+            }
+        })
+        .catch(error => {
+            msgDiv.innerText = '連線出錯，請稍後再試';
+            console.error('Error!', error.message);
+        });
+    }
+</script>
+
+</body>
+</html>
