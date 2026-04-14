@@ -1,89 +1,479 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抽獎登記</title>
-    <style>
-        /* 縮小整體邊距，適合小視窗 */
-        body { font-family: 'Arial', sans-serif; background-color: #fff0f5; text-align: center; color: #d02090; margin: 0; padding: 10px; }
-        .container { max-width: 400px; margin: auto; background: white; padding: 15px; border-radius: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
-        h1 { font-size: 20px; margin: 5px 0; color: #ff69b4; }
-        .prize { font-size: 15px; font-weight: bold; color: #db7093; margin-bottom: 10px; }
-        .info-box { background: #fff9fb; border: 1px dashed #ffc0cb; padding: 10px; border-radius: 8px; text-align: left; font-size: 13px; line-height: 1.4; margin-bottom: 10px; color: #d02090; }
-        .stat { background: #ffeff2; padding: 8px; border-radius: 8px; margin: 10px 0; font-weight: bold; color: #ff1493; font-size: 13px; }
-        input { width: 80%; padding: 10px; margin: 5px 0; border: 2px solid #ffc0cb; border-radius: 8px; outline: none; text-align: center; font-size: 14px; }
-        button { background-color: #ff69b4; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; margin-top: 5px; width: 85%; }
-        button:hover { background-color: #db7093; }
-        #message { margin-top: 10px; font-size: 13px; min-height: 18px; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <link rel="apple-touch-icon" href="IMG_8677.jpeg">
+  <link rel="icon" sizes="192x192" href="IMG_8677.jpeg">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Yesung Album&Card</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Cinzel:wght@500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root { --ys-blue-grey: #a1b0bd; --ys-deep-blue: #2c445e; --glass: rgba(255, 255, 255, 0.25); --pink-magic: #ff85a2; }
+    html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; }
+    
+    .bg-layer { 
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+      background-image: url('IMG_8675.jpeg'); 
+      background-size: cover; background-position: center top; 
+      z-index: -1; pointer-events: none; 
+    }
+    
+    .scroll-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; padding: 5px 15px 90px 15px; box-sizing: border-box; }
+    header { text-align: center; margin-bottom: 10px; width: 100%; max-width: 800px; background: var(--glass); padding: 10px 20px; border-radius: 18px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); box-sizing: border-box; }
+    .main-title { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--ys-deep-blue); margin: 0; display: flex; align-items: baseline; justify-content: center; gap: 8px; }
+    .yesung-txt { font-size: 2.8rem; letter-spacing: -0.5px; }
+    .album-txt { font-size: 1.5rem; opacity: 0.95; }
+    .sub-credits { font-size: 0.75em; color: #222; margin-top: 2px; letter-spacing: 1px; font-weight: 500; }
+    
+    /* 調整留言板容器以放置按鈕 */
+    .notice-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .notice-board {
+      padding: 8px 15px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 12px;
+      font-size: 0.85em;
+      color: var(--ys-deep-blue);
+      font-weight: 500;
+      border: 1px dashed rgba(44, 68, 94, 0.3);
+      max-width: 70%;
+      word-wrap: break-word;
+      text-align: left;
+      line-height: 1.4;
+    }
+
+    /* 愛心抽獎按鈕 */
+    .draw-btn {
+      background: white;
+      border: 1px solid var(--pink-magic);
+      border-radius: 12px;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      box-shadow: 0 2px 8px rgba(255, 133, 162, 0.3);
+      flex-shrink: 0;
+    }
+    .draw-btn:active { transform: scale(0.95); }
+    .draw-btn .heart-icon { color: var(--pink-magic); font-size: 1.2rem; }
+    .draw-btn .btn-txt { font-size: 9px; color: var(--pink-magic); font-weight: bold; margin-top: 2px; white-space: nowrap; }
+
+    .app-container { width: 100%; max-width: 800px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; }
+    
+    .tab-nav { 
+      display: flex; 
+      flex-wrap: nowrap; 
+      justify-content: flex-start; 
+      gap: 6px; 
+      background: rgba(255,255,255,0.2); 
+      border-radius: 15px; 
+      padding: 6px; 
+      margin-bottom: 10px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; 
+    }
+    .tab-nav::-webkit-scrollbar { display: none; }
+    
+    .tab-btn { 
+      flex: 0 0 auto; 
+      padding: 8px 12px; 
+      background: transparent; 
+      border: none; 
+      border-radius: 12px; 
+      font-size: 0.9em; 
+      color: #333; 
+      cursor: pointer; 
+      transition: 0.3s; 
+      font-weight: 500; 
+      white-space: nowrap; 
+    }
+    .tab-btn.active { background: rgba(255,255,255,0.8); color: var(--ys-deep-blue); font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    
+    .sub-nav-container { width: 100%; overflow-x: auto; white-space: nowrap; margin-bottom: 10px; scrollbar-width: none; }
+    .sub-nav-container::-webkit-scrollbar { display: none; }
+    .sub-nav { display: inline-flex; gap: 8px; padding: 2px 5px; }
+    .sub-btn { padding: 8px 18px; background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; font-size: 0.85em; color: #333; cursor: pointer; font-weight: 500; }
+    .sub-btn.active { background: var(--ys-deep-blue); color: #fff; border-color: var(--ys-deep-blue); }
+    .album-header { font-family: 'Cinzel', serif; font-size: 1.25em; font-weight: 600; text-transform: uppercase; color: var(--ys-deep-blue); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(0,0,0,0.15); padding-bottom: 8px; letter-spacing: 2px; }
+    .section-title { font-size: 1em; color: var(--ys-deep-blue); margin: 15px 0 10px 0; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; margin-bottom: 20px; align-items: start; }
+    .card { background: rgba(255,255,255,0.8); border-radius: 12px; padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent; }
+    .card * { pointer-events: none; }
+    .img-wrapper { width: 100%; aspect-ratio: 5 / 7; overflow: hidden; border-radius: 8px; background: #eee; }
+    .card.album-type .img-wrapper { aspect-ratio: 1 / 1; }
+    .card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); opacity: 0.5; transition: 0.3s; }
+    
+    .no-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(44, 68, 94, 0.05);
+      color: var(--ys-deep-blue);
+      font-size: 0.85em; font-weight: 600;
+      text-align: center; padding: 10px; box-sizing: border-box;
+      border: 1px dashed rgba(44, 68, 94, 0.2);
+      line-height: 1.5;
+    }
+
+    .card.owned::after { content: '✓'; position: absolute; bottom: -5px; right: -5px; background: var(--ys-blue-grey); color: white; width: 24px; height: 24px; border-radius: 50%; line-height: 24px; font-size: 14px; font-weight: bold; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+    .card.owned { background: #fff; transform: translateY(-2px); }
+    .card.owned img { filter: grayscale(0%); opacity: 1; }
+    .card.owned .no-img-placeholder { background: rgba(161, 176, 189, 0.1); }
+    
+    .card-name { font-size: 11px; margin-top: 8px; color: #333; line-height: 1.2; text-align: center; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .empty-msg { text-align: center; color: #333; padding: 40px; font-style: italic; font-weight: 500; }
+    
+    .bottom-bar { 
+      position: fixed; bottom: 0; left: 0; width: 100%; 
+      background: rgba(255, 255, 255, 0.85); 
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
+      border-top: 1px solid rgba(255,255,255,0.5); 
+      padding: 10px 20px 20px 20px; box-sizing: border-box; 
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.08); z-index: 999; 
+    }
+    .stat-text { 
+      display: flex; justify-content: space-between; align-items: flex-end;
+      font-size: 13px; font-weight: 600; color: var(--ys-deep-blue); 
+      margin-bottom: 12px; letter-spacing: 0.5px;
+    }
+    .staff-container {
+      position: relative; width: 100%; height: 25px;
+      background-image: linear-gradient(rgba(44, 68, 94, 0.3) 1px, transparent 1px);
+      background-size: 100% 6px; background-position: 0 1px;
+    }
+    .clef {
+      position: absolute; left: 0px; top: 50%; transform: translateY(-50%);
+      font-size: 38px; color: rgba(44, 68, 94, 0.7);
+      pointer-events: none; z-index: 1;
+    }
+    .staff-fill {
+      position: absolute; top: 0; left: 0; height: 100%; width: 0%;
+      background: rgba(44, 68, 94, 0.2);
+      border-right: 2px solid var(--ys-deep-blue);
+      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 2;
+    }
+    .music-note {
+      position: absolute; right: -12px; top: 50%; transform: translateY(-50%);
+      font-size: 20px; filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.3));
+    }
+
+    /* 抽獎彈窗樣式 */
+    #drawModal {
+      display: none;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.6);
+      z-index: 2000;
+      justify-content: center; align-items: center;
+      backdrop-filter: blur(5px);
+    }
+    .modal-content {
+      width: 90%; max-width: 500px; height: 80vh;
+      background: white; border-radius: 20px;
+      overflow: hidden; position: relative;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+    .modal-close {
+      position: absolute; top: 10px; right: 10px;
+      width: 30px; height: 30px; background: rgba(0,0,0,0.5);
+      color: white; border-radius: 50%; text-align: center;
+      line-height: 30px; font-size: 20px; cursor: pointer; z-index: 10;
+    }
+    #drawFrame { width: 100%; height: 100%; border: none; }
+  </style>
 </head>
 <body>
 
-<div class="container">
-    <img src="IMG_9737.jpeg" alt="Pink Magic">
-    
-    <h1>小卡奴抽獎活動 🎟️</h1>
-    <div class="prize">🎁 Pink Magic 粉色空專</div>
-    
-    <div class="info-box">
-        📅 <b>時間：</b>4/15 - 4/30 (測試中)<br>
-        ✅ <b>規則：</b>每天可以登記一次<br>
-        ⚠️ <b>資格：</b>限私訊領取連結者（人工篩選❤️）
+  <div class="bg-layer" id="bgLayer"></div>
+
+  <div class="scroll-wrapper">
+    <header>
+      <h1 class="main-title"><span class="yesung-txt">Yesung</span><span class="album-txt">Album&Card</span></h1>
+      <div class="sub-credits">Threads @sherrykao1314</div>
+      
+      <div class="notice-container">
+        <div id="noticeBoard" class="notice-board" style="display: none;"></div>
+        <button class="draw-btn" onclick="openDraw()">
+          <span class="heart-icon">❤</span>
+          <span class="btn-txt">PINK MAGIC 抽獎</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="app-container">
+      <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('korea', event)">KOREA</button>
+        <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
+        <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
+        <button class="tab-btn" onclick="switchTab('other_album', event)">其他專</button>
+        <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
+        <button class="tab-btn" onclick="switchTab('calendar', event)">年曆</button>
+        <button class="tab-btn" onclick="switchTab('entry', event)">入場</button>
+        <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
+      </nav>
+      <div class="sub-nav-container"><nav class="sub-nav" id="subNav"></nav></div>
+      <div class="content-area" id="displayArea"><div class="empty-msg">與 Google 連線中...</div></div>
     </div>
+  </div>
+
+  <div id="drawModal">
+    <div class="modal-content">
+      <div class="modal-close" onclick="closeDraw()">×</div>
+      <iframe id="drawFrame" src=""></iframe>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="stat-text" id="statCounter">
+      <span>0 張專輯 / 0 張小卡</span>
+      <span style="font-size:11px; opacity:0.8;">0%</span>
+    </div>
+    <div class="staff-container">
+      <div class="clef">&#x1D11E;</div> <div class="staff-fill" id="staffFill">
+        <div class="music-note">&#x1F3B5;</div> </div>
+    </div>
+  </div>
+
+  <script>
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzFgYBlnqAprAlxhQD4XT6ld0GGMHFOxsMLXEmoa1l_Kf38kcOg45hxReg9FueAVQD9/exec"; 
     
-    <div class="stat">✨ 目前已登記：<span id="currentCount">...</span> 人次</div>
+    // 抽獎視窗功能
+    function openDraw() {
+      const modal = document.getElementById('drawModal');
+      const frame = document.getElementById('drawFrame');
+      frame.src = "https://script.google.com/macros/s/AKfycbxbynea34wJJfH6Q7Ta4sQOft_w7oYss_GkvKJaOmWuE_0X3K4hgj2WHBM4vudtVnytvw/exec";
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // 禁止底層捲動
+    }
+
+    function closeDraw() {
+      const modal = document.getElementById('drawModal');
+      const frame = document.getElementById('drawFrame');
+      frame.src = "";
+      modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    const STORAGE_KEY = 'yesung_github_pc_list';
+    let myCollection = [];
+    let itemDictionary = {}; 
     
-    <input type="text" id="threadsId" placeholder="輸入 Threads ID">
-    <button onclick="submitForm()">立即登記</button>
-    
-    <div id="message"></div>
-</div>
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) myCollection = JSON.parse(saved);
+    } catch(e) {}
 
-<script>
-    const scriptURL = '你的APPS_SCRIPT網頁應用程式網址'; 
+    function updateCounter() {
+      let albumCount = 0;
+      let cardCount = 0;
+      myCollection.forEach(id => {
+        if (itemDictionary[id] === '專輯') albumCount++;
+        else if (itemDictionary[id]) cardCount++;
+      });
+      
+      let totalOwned = albumCount + cardCount;
+      let totalItems = Object.keys(itemDictionary).length;
+      let percentage = totalItems === 0 ? 0 : Math.round((totalOwned / totalItems) * 100);
 
-    window.onload = () => {
-        fetch(scriptURL)
-        .then(res => res.json())
-        .then(data => { document.getElementById('currentCount').innerText = data.count; })
-        .catch(err => console.error('無法取得人數', err));
-    };
+      document.getElementById('statCounter').innerHTML = `
+        <span>${albumCount} 張專輯 / ${cardCount} 張小卡</span>
+        <span style="font-size:12px; font-weight:800; opacity:0.8;">${percentage}%</span>
+      `;
+      document.getElementById('staffFill').style.width = `${percentage}%`;
+    }
 
-    function submitForm() {
-        const idInput = document.getElementById('threadsId');
-        const msgDiv = document.getElementById('message');
-        const id = idInput.value.trim();
+    let allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
+    let currentTab = 'korea';
 
-        if (!id) {
-            alert('請輸入 Threads ID');
-            return;
+    fetch(GAS_API_URL + "?t=" + new Date().getTime())
+      .then(response => response.json())
+      .then(result => {
+        if (result.message && result.message.toString().trim() !== "") {
+          const noticeEl = document.getElementById('noticeBoard');
+          noticeEl.innerHTML = `📢 ${result.message.toString().replace(/\n/g, '<br>')}`;
+          noticeEl.style.display = 'inline-block';
+        }
+        processData(result.cards);
+      })
+      .catch(error => {
+        document.getElementById('displayArea').innerHTML = '<div class="empty-msg">讀取資料失敗，請確認網路連線並重新整理。</div>';
+        console.error("Fetch Error:", error);
+      });
+
+    function processData(cards) {
+      allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
+      
+      cards.forEach(card => {
+        const [id, name, imgUrl, countryRaw, release, albumHeader, type, recommendFlag] = card;
+        
+        if (!id) return;
+        
+        const itemId = id.toString();
+        const itemType = type ? type.toString().trim() : ''; 
+        itemDictionary[itemId] = itemType === '專輯' ? '專輯' : '小卡'; 
+        
+        const item = { id: itemId, name, imgUrl, type: itemType };
+
+        if (countryRaw && release) {
+          let c = countryRaw.toString().trim().toLowerCase();
+          
+          if (c === '大隊') c = 'group';
+          if (c === '其他專') c = 'other_album';
+          if (c === '其他' || c === '周邊') c = 'merch';
+          if (c === '年曆') c = 'calendar';
+          if (c === '入場') c = 'entry';
+          if (c === '雜誌') c = 'magazine';
+
+          if (!allData[c]) allData[c] = {};
+          if (!allData[c][release]) allData[c][release] = {};
+          
+          const header = albumHeader ? albumHeader.toString().trim() : ""; 
+          if (!allData[c][release][header]) {
+            allData[c][release][header] = { 
+              albums: [], photocards: [], specialCards: [], fansignCards: [], 
+              randomCards: [], bonusCards: [], wonFansignCards: [], luckyCards: [], 
+              otherCards: [], uncategorized: [] 
+            }; 
+          }
+          
+          if (itemType === '專輯') allData[c][release][header].albums.push(item);
+          else if (itemType === '特典卡') allData[c][release][header].specialCards.push(item);
+          else if (itemType === '簽售卡') allData[c][release][header].fansignCards.push(item); 
+          else if (itemType === '隨機') allData[c][release][header].randomCards.push(item);
+          else if (itemType === '滿額') allData[c][release][header].bonusCards.push(item);
+          else if (itemType === '中簽') allData[c][release][header].wonFansignCards.push(item); 
+          else if (itemType === '幸運') allData[c][release][header].luckyCards.push(item); 
+          else if (itemType === '其他') allData[c][release][header].otherCards.push(item);
+          else if (itemType === '小卡') allData[c][release][header].photocards.push(item);
+          else allData[c][release][header].uncategorized.push(item);
+        }
+      });
+      
+      switchTab('korea');
+      updateCounter(); 
+    }
+
+    function switchTab(tabId, event) {
+      currentTab = tabId;
+      if(event) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+      }
+      
+      const subNav = document.getElementById('subNav');
+      const area = document.getElementById('displayArea');
+      
+      subNav.innerHTML = '';
+      area.innerHTML = '';
+
+      const releases = Object.keys(allData[tabId] || {});
+      if (releases.length === 0) {
+        area.innerHTML = '<div class="empty-msg">此分類尚無資料</div>';
+        return;
+      }
+      releases.forEach((rel, idx) => {
+        const btn = document.createElement('button');
+        btn.className = `sub-btn ${idx === 0 ? 'active' : ''}`;
+        btn.innerText = rel;
+        btn.onclick = (e) => switchRelease(rel, e, tabId);
+        subNav.appendChild(btn);
+      });
+      switchRelease(releases[0], null, tabId);
+    }
+
+    function switchRelease(release, event, country) {
+      if(event) {
+        document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+      }
+      const area = document.getElementById('displayArea');
+      area.innerHTML = ''; 
+      
+      const releaseData = allData[country || currentTab][release];
+      if(!releaseData) return;
+      
+      Object.keys(releaseData).forEach(header => {
+        const data = releaseData[header];
+        
+        if (header !== "") {
+          const headerDiv = document.createElement('div');
+          headerDiv.className = 'album-header';
+          headerDiv.innerText = header;
+          area.appendChild(headerDiv);
         }
 
-        msgDiv.innerText = '登記中...';
-        
-        fetch(scriptURL, {
-            method: 'POST',
-            body: JSON.stringify({ threadsId: id }),
-        })
-        .then(res => res.json())
-        .then(response => {
-            // 注意：如果你的 Apps Script 後端還有擋「一天一次」，這裡仍會顯示後端傳回的錯誤訊息
-            if (response.result === 'success') {
-                msgDiv.innerHTML = '<span style="color:green;">登記成功！🌸</span>';
-                document.getElementById('currentCount').innerText = response.count;
-                idInput.value = '';
-            } else {
-                msgDiv.innerHTML = `<span style="color:red">${response.message}</span>`;
-            }
-        })
-        .catch(error => {
-            msgDiv.innerText = '連線出錯';
-            console.error('Error!', error.message);
-        });
-    }
-</script>
+        const renderGrid = (title, list) => {
+          if (list && list.length > 0) {
+            if (title) area.insertAdjacentHTML('beforeend', `<div class="section-title">${title}</div>`);
+            const g = document.createElement('div'); g.className = 'grid';
+            list.forEach(item => g.appendChild(createCard(item)));
+            area.appendChild(g);
+          }
+        };
 
+        renderGrid(null, data.uncategorized);
+        renderGrid("💿 專輯版本", data.albums);
+        renderGrid("🃏 專輯小卡", data.photocards);
+        renderGrid("🎁 特典小卡", data.specialCards);
+        renderGrid("✍️ 簽售小卡", data.fansignCards);
+        renderGrid("🎉 中簽卡", data.wonFansignCards);
+        renderGrid("🍀 幸運卡", data.luckyCards);
+        renderGrid("🎲 隨機卡", data.randomCards);
+        renderGrid("🛍️ 滿額卡", data.bonusCards);
+        renderGrid("📌 其他小卡", data.otherCards);
+      });
+    }
+
+    function createCard(item) {
+      const isOwned = myCollection.includes(item.id);
+      const div = document.createElement('div');
+      const isAlbum = item.type === '專輯';
+      div.className = `card ${isOwned ? 'owned' : ''} ${isAlbum ? 'album-type' : ''}`;
+      
+      let imgHtml = '';
+      const hasUrl = item.imgUrl && item.imgUrl.toString().trim() !== "" && item.imgUrl.toString() !== "undefined";
+      
+      if (hasUrl) {
+        imgHtml = `<img src="${item.imgUrl}" onerror="this.src='https://via.placeholder.com/150x210?text=Error'" loading="lazy">`;
+      } else {
+        imgHtml = `<div class="no-img-placeholder">歡迎提供<br>卡面</div>`;
+      }
+      
+      let htmlContent = `<div class="img-wrapper">${imgHtml}</div>`;
+      const hasName = item.name && item.name.toString().trim() !== "";
+      if (hasName) htmlContent += `<div class="card-name">${item.name}</div>`;
+      
+      div.innerHTML = htmlContent;
+      div.addEventListener('click', function() {
+        const itemId = item.id;
+        div.classList.toggle('owned');
+        if (myCollection.includes(itemId)) {
+          myCollection = myCollection.filter(i => i !== itemId);
+        } else {
+          myCollection.push(itemId);
+        }
+        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(myCollection)); } catch(e) {}
+        updateCounter(); 
+      });
+      return div;
+    }
+  </script>
 </body>
 </html>
