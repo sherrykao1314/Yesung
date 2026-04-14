@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Cinzel:wght@500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
   
   <style>
-    :root { --ys-blue-grey: #a1b0bd; --ys-deep-blue: #2c445e; --glass: rgba(255, 255, 255, 0.25); }
+    :root { --ys-blue-grey: #a1b0bd; --ys-deep-blue: #2c445e; --glass: rgba(255, 255, 255, 0.25); --pink-magic: #ff85a2; }
     html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; }
     
     .bg-layer { 
@@ -32,8 +32,16 @@
     .album-txt { font-size: 1.5rem; opacity: 0.95; }
     .sub-credits { font-size: 0.75em; color: #222; margin-top: 2px; letter-spacing: 1px; font-weight: 500; }
     
-    .notice-board {
+    .notice-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       margin-top: 10px;
+      width: 100%;
+    }
+
+    .notice-board {
       padding: 8px 15px;
       background: rgba(255, 255, 255, 0.4);
       border-radius: 12px;
@@ -41,12 +49,30 @@
       color: var(--ys-deep-blue);
       font-weight: 500;
       border: 1px dashed rgba(44, 68, 94, 0.3);
-      display: inline-block;
-      max-width: 95%;
+      max-width: 70%;
       word-wrap: break-word;
       text-align: left;
       line-height: 1.4;
     }
+
+    .draw-btn {
+      background: white;
+      border: 1px solid var(--pink-magic);
+      border-radius: 12px;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: 0.3s;
+      box-shadow: 0 2px 8px rgba(255, 133, 162, 0.3);
+      flex-shrink: 0;
+      text-decoration: none; /* 如果改成 a 標籤時需要 */
+    }
+    .draw-btn:active { transform: scale(0.95); }
+    .draw-btn .heart-icon { color: var(--pink-magic); font-size: 1.2rem; }
+    .draw-btn .btn-txt { font-size: 9px; color: var(--pink-magic); font-weight: bold; margin-top: 2px; white-space: nowrap; }
 
     .app-container { width: 100%; max-width: 800px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; }
     
@@ -157,7 +183,14 @@
     <header>
       <h1 class="main-title"><span class="yesung-txt">Yesung</span><span class="album-txt">Album&Card</span></h1>
       <div class="sub-credits">Threads @sherrykao1314</div>
-      <div id="noticeBoard" class="notice-board" style="display: none;"></div>
+      
+      <div class="notice-container">
+        <div id="noticeBoard" class="notice-board" style="display: none;"></div>
+        <a class="draw-btn" href="https://reurl.cc/mpMjgV" target="_blank">
+          <span class="heart-icon">❤</span>
+          <span class="btn-txt">PINK MAGIC 抽獎</span>
+        </a>
+      </div>
     </header>
 
     <div class="app-container">
@@ -189,7 +222,7 @@
 
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzFgYBlnqAprAlxhQD4XT6ld0GGMHFOxsMLXEmoa1l_Kf38kcOg45hxReg9FueAVQD9/exec"; 
-    
+
     const STORAGE_KEY = 'yesung_github_pc_list';
     let myCollection = [];
     let itemDictionary = {}; 
@@ -218,7 +251,6 @@
       document.getElementById('staffFill').style.width = `${percentage}%`;
     }
 
-    // 新增 other_album 結構
     let allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
     let currentTab = 'korea';
 
@@ -238,7 +270,6 @@
       });
 
     function processData(cards) {
-      // 初始化包含 other_album
       allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
       
       cards.forEach(card => {
@@ -256,7 +287,7 @@
           let c = countryRaw.toString().trim().toLowerCase();
           
           if (c === '大隊') c = 'group';
-          if (c === '其他專') c = 'other_album'; // 新增的判斷邏輯
+          if (c === '其他專') c = 'other_album';
           if (c === '其他' || c === '周邊') c = 'merch';
           if (c === '年曆') c = 'calendar';
           if (c === '入場') c = 'entry';
