@@ -32,7 +32,6 @@
     .album-txt { font-size: 1.5rem; opacity: 0.95; }
     .sub-credits { font-size: 0.75em; color: #222; margin-top: 2px; letter-spacing: 1px; font-weight: 500; }
     
-    /* 調整留言板容器以放置按鈕 */
     .notice-container {
       display: flex;
       align-items: center;
@@ -56,7 +55,6 @@
       line-height: 1.4;
     }
 
-    /* 愛心抽獎按鈕 */
     .draw-btn {
       background: white;
       border: 1px solid var(--pink-magic);
@@ -254,13 +252,13 @@
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzFgYBlnqAprAlxhQD4XT6ld0GGMHFOxsMLXEmoa1l_Kf38kcOg45hxReg9FueAVQD9/exec"; 
     
-    // 抽獎視窗功能
     function openDraw() {
       const modal = document.getElementById('drawModal');
       const frame = document.getElementById('drawFrame');
-      frame.src = "https://script.google.com/macros/s/AKfycbxbynea34wJJfH6Q7Ta4sQOft_w7oYss_GkvKJaOmWuE_0X3K4hgj2WHBM4vudtVnytvw/exec";
+      // 更新後的網址
+      frame.src = "https://reurl.cc/mpMjgV";
       modal.style.display = 'flex';
-      document.body.style.overflow = 'hidden'; // 禁止底層捲動
+      document.body.style.overflow = 'hidden';
     }
 
     function closeDraw() {
