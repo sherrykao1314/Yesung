@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  <link rel="apple-touch-icon" href="IMG_8677.jpeg">
-  <link rel="icon" sizes="192x192" href="IMG_8677.jpeg">
+  <link rel="apple-touch-icon" href="IMG_8677.jpeg?v=2">
+  <link rel="icon" sizes="192x192" href="IMG_8677.jpeg?v=2">
   
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
@@ -20,7 +20,8 @@
     
     .bg-layer { 
       position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-      background-image: url('IMG_8675.jpeg'); 
+      /* 這裡加上了 ?v=2 來強制更新背景圖 */
+      background-image: url('IMG_8675.jpeg?v=2'); 
       background-size: cover; background-position: center top; 
       z-index: -1; pointer-events: none; 
     }
@@ -68,7 +69,7 @@
       transition: 0.3s;
       box-shadow: 0 2px 8px rgba(255, 133, 162, 0.3);
       flex-shrink: 0;
-      text-decoration: none; /* 如果改成 a 標籤時需要 */
+      text-decoration: none; 
     }
     .draw-btn:active { transform: scale(0.95); }
     .draw-btn .heart-icon { color: var(--pink-magic); font-size: 1.2rem; }
