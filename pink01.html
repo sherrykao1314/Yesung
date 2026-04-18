@@ -32,7 +32,6 @@
     .album-txt { font-size: 1.5rem; opacity: 0.95; }
     .sub-credits { font-size: 0.75em; color: #222; margin-top: 2px; letter-spacing: 1px; font-weight: 500; }
     
-    /* 頂部資料庫總計樣式 */
     .top-stat-bar { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--ys-deep-blue); background: rgba(255,255,255,0.4); padding: 5px 16px; border-radius: 20px; display: inline-block; border: 1px solid rgba(255,255,255,0.5); letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
     .notice-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; width: 100%; }
@@ -65,6 +64,9 @@
     .album-header { font-family: 'Cinzel', serif; font-size: 1.25em; font-weight: 600; text-transform: uppercase; color: var(--ys-deep-blue); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(0,0,0,0.15); padding-bottom: 8px; letter-spacing: 2px; }
     .section-title { font-size: 1em; color: var(--ys-deep-blue); margin: 15px 0 10px 0; font-weight: bold; display: flex; align-items: center; gap: 6px; }
     
+    /* 專門調整想要清單標題的上間距 */
+    .wish-view .section-title { margin-top: 5px; }
+
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; margin-bottom: 20px; align-items: start; }
     
     .card { background: rgba(255,255,255,0.8); border-radius: 12px; padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent; transition: 0.3s; }
@@ -151,7 +153,7 @@
         <button class="tab-btn" onclick="switchTab('entry', event)">入場</button>
         <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
       </nav>
-      <div class="sub-nav-container"><nav class="sub-nav" id="subNav"></nav></div>
+      <div class="sub-nav-container" id="subNavContainer"><nav class="sub-nav" id="subNav"></nav></div>
       <div class="content-area" id="displayArea"><div class="empty-msg">與 Google 連線中...</div></div>
     </div>
   </div>
@@ -202,7 +204,6 @@
     } catch(e) {}
 
     function updateCounter() {
-      // 1. 計算資料庫的總數量 (最上方顯示)
       let totalAlbums = 0;
       let totalCards = 0;
       Object.values(itemDictionary).forEach(type => {
@@ -211,7 +212,6 @@
       });
       document.getElementById('topStatCounter').innerText = `圖鑑總收錄：${totalAlbums} 張專輯 / ${totalCards} 張小卡`;
 
-      // 2. 計算使用者自己的收集進度 (最下方顯示)
       let albumCount = 0;
       let cardCount = 0;
       myCollection.forEach(id => {
@@ -401,6 +401,7 @@
       if(event) event.currentTarget.classList.add('active');
       else document.querySelector(`.tab-btn[onclick*="${tabId}"]`).classList.add('active');
       
+      const subNavContainer = document.getElementById('subNavContainer');
       const subNav = document.getElementById('subNav');
       const area = document.getElementById('displayArea');
       subNav.innerHTML = '';
@@ -409,10 +410,12 @@
 
       if (tabId === 'wish') {
         area.classList.add('wish-view');
+        subNavContainer.style.display = 'none'; // 隱藏多餘的空白區域
         renderWishlist();
         return;
       }
 
+      subNavContainer.style.display = 'block'; // 顯示第二層按鈕區域
       const releases = Object.keys(allData[tabId] || {});
       if (releases.length === 0) {
         area.innerHTML = '<div class="empty-msg">此分類尚無資料</div>';
