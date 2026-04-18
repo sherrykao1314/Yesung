@@ -26,13 +26,15 @@
     }
     
     .scroll-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; padding: 5px 15px 90px 15px; box-sizing: border-box; }
-    header { text-align: center; margin-bottom: 10px; width: 100%; max-width: 800px; background: var(--glass); padding: 10px 20px; border-radius: 18px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); box-sizing: border-box; }
+    header { text-align: center; margin-bottom: 10px; width: 100%; max-width: 800px; background: var(--glass); padding: 15px 20px; border-radius: 18px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); box-sizing: border-box; }
     .main-title { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--ys-deep-blue); margin: 0; display: flex; align-items: baseline; justify-content: center; gap: 8px; }
     .yesung-txt { font-size: 2.8rem; letter-spacing: -0.5px; }
     .album-txt { font-size: 1.5rem; opacity: 0.95; }
     .sub-credits { font-size: 0.75em; color: #222; margin-top: 2px; letter-spacing: 1px; font-weight: 500; }
     
-    .notice-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; width: 100%; }
+    .top-stat-bar { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--ys-deep-blue); background: rgba(255,255,255,0.4); padding: 5px 16px; border-radius: 20px; display: inline-block; border: 1px solid rgba(255,255,255,0.5); letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+
+    .notice-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; width: 100%; }
     .notice-board { padding: 8px 15px; background: rgba(255, 255, 255, 0.4); border-radius: 12px; font-size: 0.85em; color: var(--ys-deep-blue); font-weight: 500; border: 1px dashed rgba(44, 68, 94, 0.3); max-width: 65%; word-wrap: break-word; text-align: left; line-height: 1.4; }
     .btn-group { display: flex; flex-direction: column; gap: 6px; }
 
@@ -50,7 +52,6 @@
     .tab-btn { flex: 0 0 auto; padding: 8px 12px; background: transparent; border: none; border-radius: 12px; font-size: 0.9em; color: #333; cursor: pointer; transition: 0.3s; font-weight: 500; white-space: nowrap; }
     .tab-btn.active { background: rgba(255,255,255,0.8); color: var(--ys-deep-blue); font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     
-    /* WISH 頁籤專屬粉色系 */
     .tab-btn[onclick*="wish"] { color: #d84b6b; }
     .tab-btn[onclick*="wish"].active { background: #ffe3eb; box-shadow: 0 2px 8px rgba(255, 133, 162, 0.2); }
 
@@ -63,6 +64,9 @@
     .album-header { font-family: 'Cinzel', serif; font-size: 1.25em; font-weight: 600; text-transform: uppercase; color: var(--ys-deep-blue); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(0,0,0,0.15); padding-bottom: 8px; letter-spacing: 2px; }
     .section-title { font-size: 1em; color: var(--ys-deep-blue); margin: 15px 0 10px 0; font-weight: bold; display: flex; align-items: center; gap: 6px; }
     
+    /* 專門調整想要清單標題的上間距 */
+    .wish-view .section-title { margin-top: 5px; }
+
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; margin-bottom: 20px; align-items: start; }
     
     .card { background: rgba(255,255,255,0.8); border-radius: 12px; padding: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); cursor: pointer; position: relative; -webkit-tap-highlight-color: transparent; transition: 0.3s; }
@@ -70,18 +74,11 @@
     .card.album-type .img-wrapper { aspect-ratio: 1 / 1; }
     .card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); opacity: 0.5; transition: 0.3s; }
     
-    /* 已擁有標記 */
     .card.owned::after { content: '✓'; position: absolute; bottom: -5px; right: -5px; background: var(--ys-blue-grey); color: white; width: 24px; height: 24px; border-radius: 50%; line-height: 24px; font-size: 14px; font-weight: bold; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 5; }
     .card.owned { background: #fff; transform: translateY(-2px); }
     .card.owned img { filter: grayscale(0%); opacity: 1; }
     
-    /* 想要標記愛心按鈕 */
-    .wish-btn { 
-      position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; 
-      background: rgba(255,255,255,0.9); border-radius: 50%; 
-      display: flex; align-items: center; justify-content: center; font-size: 13px; color: #aaa; 
-      z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: 0.2s; 
-    }
+    .wish-btn { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #aaa; z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: 0.2s; }
     .wish-btn::after { content: '\2661\FE0E'; margin-top: 1px; }
     .card.in-wishlist .wish-btn { color: var(--pink-magic); text-shadow: 0 0 2px rgba(255,133,162,0.4); }
     .card.in-wishlist .wish-btn::after { content: '\2665\FE0E'; }
@@ -101,7 +98,6 @@
     .staff-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: rgba(44, 68, 94, 0.2); border-right: 2px solid var(--ys-deep-blue); transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2; }
     .music-note { position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 20px; filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.3)); }
 
-    /* 留言板彈出視窗 CSS */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
     .modal-content { background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.6); width: 100%; max-width: 400px; max-height: 80vh; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.25); overflow: hidden; }
     .modal-header { padding: 15px; background: rgba(255,255,255,0.4); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.5); font-weight: 600; color: var(--ys-deep-blue); }
@@ -127,6 +123,8 @@
     <header>
       <h1 class="main-title"><span class="yesung-txt">Yesung</span><span class="album-txt">Album&Card</span></h1>
       <div class="sub-credits">Threads @sherrykao1314</div>
+      
+      <div class="top-stat-bar" id="topStatCounter">資料庫載入中...</div>
       
       <div class="notice-container">
         <div id="noticeBoard" class="notice-board" style="display: none;"></div>
@@ -155,14 +153,14 @@
         <button class="tab-btn" onclick="switchTab('entry', event)">入場</button>
         <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
       </nav>
-      <div class="sub-nav-container"><nav class="sub-nav" id="subNav"></nav></div>
+      <div class="sub-nav-container" id="subNavContainer"><nav class="sub-nav" id="subNav"></nav></div>
       <div class="content-area" id="displayArea"><div class="empty-msg">與 Google 連線中...</div></div>
     </div>
   </div>
 
   <div class="bottom-bar">
     <div class="stat-text" id="statCounter">
-      <span>0 張專輯 / 0 張小卡</span>
+      <span>已收集：0 張專輯 / 0 張小卡</span>
       <span style="font-size:11px; opacity:0.8;">0%</span>
     </div>
     <div class="staff-container">
@@ -198,7 +196,7 @@
     let myWishlist = [];
     let itemDictionary = {}; 
     let cardLookup = {}; 
-    let globalMessages = []; // 用來存放從 Google 抓回來的留言
+    let globalMessages = []; 
     
     try {
       myCollection = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -206,6 +204,14 @@
     } catch(e) {}
 
     function updateCounter() {
+      let totalAlbums = 0;
+      let totalCards = 0;
+      Object.values(itemDictionary).forEach(type => {
+        if (type === '專輯') totalAlbums++;
+        else if (type) totalCards++; 
+      });
+      document.getElementById('topStatCounter').innerText = `圖鑑總收錄：${totalAlbums} 張專輯 / ${totalCards} 張小卡`;
+
       let albumCount = 0;
       let cardCount = 0;
       myCollection.forEach(id => {
@@ -214,11 +220,11 @@
       });
       
       let totalOwned = albumCount + cardCount;
-      let totalItems = Object.keys(itemDictionary).length;
+      let totalItems = totalAlbums + totalCards;
       let percentage = totalItems === 0 ? 0 : Math.round((totalOwned / totalItems) * 100);
 
       document.getElementById('statCounter').innerHTML = `
-        <span>${albumCount} 張專輯 / ${cardCount} 張小卡</span>
+        <span>已收集：${albumCount} 專輯 / ${cardCount} 小卡</span>
         <span style="font-size:12px; font-weight:800; opacity:0.8;">${percentage}%</span>
       `;
       document.getElementById('staffFill').style.width = `${percentage}%`;
@@ -230,14 +236,12 @@
     fetch(GAS_API_URL + "?t=" + new Date().getTime())
       .then(response => response.json())
       .then(result => {
-        // 站長公告
         if (result.message && result.message.toString().trim() !== "") {
           const noticeEl = document.getElementById('noticeBoard');
           noticeEl.innerHTML = `📢 ${result.message.toString().replace(/\n/g, '<br>')}`;
           noticeEl.style.display = 'inline-block';
         }
         
-        // 取得公開留言板資料
         if (result.guestMessages) {
           globalMessages = result.guestMessages;
         }
@@ -248,7 +252,6 @@
         document.getElementById('displayArea').innerHTML = '<div class="empty-msg">讀取資料失敗，請重新整理。</div>';
       });
 
-    // === 留言板相關功能 ===
     function openModal() {
       document.getElementById('guestbookModal').style.display = 'flex';
       renderMessages();
@@ -305,7 +308,6 @@
       .then(res => res.json())
       .then(data => {
         if (data.status === 'success') {
-          // 本地端直接加上新留言，畫面即時更新
           const now = new Date();
           const timeStr = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
           
@@ -315,7 +317,7 @@
             time: timeStr
           });
           
-          document.getElementById('msgContent').value = ''; // 清空輸入框
+          document.getElementById('msgContent').value = ''; 
           renderMessages();
         } else {
           alert('傳送失敗，請稍後再試！');
@@ -330,13 +332,11 @@
       });
     }
 
-    // 防止惡意程式碼輸入的過濾器
     function escapeHTML(str) {
       return str.replace(/[&<>'"]/g, tag => ({
           '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
         }[tag]));
     }
-    // === 留言板功能結束 ===
 
     function processData(cards) {
       allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
@@ -401,6 +401,7 @@
       if(event) event.currentTarget.classList.add('active');
       else document.querySelector(`.tab-btn[onclick*="${tabId}"]`).classList.add('active');
       
+      const subNavContainer = document.getElementById('subNavContainer');
       const subNav = document.getElementById('subNav');
       const area = document.getElementById('displayArea');
       subNav.innerHTML = '';
@@ -409,10 +410,12 @@
 
       if (tabId === 'wish') {
         area.classList.add('wish-view');
+        subNavContainer.style.display = 'none'; // 隱藏多餘的空白區域
         renderWishlist();
         return;
       }
 
+      subNavContainer.style.display = 'block'; // 顯示第二層按鈕區域
       const releases = Object.keys(allData[tabId] || {});
       if (releases.length === 0) {
         area.innerHTML = '<div class="empty-msg">此分類尚無資料</div>';
