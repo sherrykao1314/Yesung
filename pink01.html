@@ -32,8 +32,8 @@
     .album-txt { font-size: 1.5rem; opacity: 0.95; }
     .sub-credits { font-size: 0.75em; color: #222; margin-top: 2px; letter-spacing: 1px; font-weight: 500; }
     
-    /* 頂部統計條樣式 */
-    .top-stat-bar { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--ys-deep-blue); background: rgba(255,255,255,0.4); padding: 4px 15px; border-radius: 20px; display: inline-block; border: 1px solid rgba(255,255,255,0.5); letter-spacing: 0.5px; }
+    /* 頂部資料庫總計樣式 */
+    .top-stat-bar { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--ys-deep-blue); background: rgba(255,255,255,0.4); padding: 5px 16px; border-radius: 20px; display: inline-block; border: 1px solid rgba(255,255,255,0.5); letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
     .notice-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; width: 100%; }
     .notice-board { padding: 8px 15px; background: rgba(255, 255, 255, 0.4); border-radius: 12px; font-size: 0.85em; color: var(--ys-deep-blue); font-weight: 500; border: 1px dashed rgba(44, 68, 94, 0.3); max-width: 65%; word-wrap: break-word; text-align: left; line-height: 1.4; }
@@ -122,7 +122,7 @@
       <h1 class="main-title"><span class="yesung-txt">Yesung</span><span class="album-txt">Album&Card</span></h1>
       <div class="sub-credits">Threads @sherrykao1314</div>
       
-      <div class="top-stat-bar" id="topStatCounter">0 張專輯 / 0 張小卡</div>
+      <div class="top-stat-bar" id="topStatCounter">資料庫載入中...</div>
       
       <div class="notice-container">
         <div id="noticeBoard" class="notice-board" style="display: none;"></div>
@@ -158,7 +158,7 @@
 
   <div class="bottom-bar">
     <div class="stat-text" id="statCounter">
-      <span>0 張專輯 / 0 張小卡</span>
+      <span>已收集：0 張專輯 / 0 張小卡</span>
       <span style="font-size:11px; opacity:0.8;">0%</span>
     </div>
     <div class="staff-container">
@@ -202,6 +202,16 @@
     } catch(e) {}
 
     function updateCounter() {
+      // 1. 計算資料庫的總數量 (最上方顯示)
+      let totalAlbums = 0;
+      let totalCards = 0;
+      Object.values(itemDictionary).forEach(type => {
+        if (type === '專輯') totalAlbums++;
+        else if (type) totalCards++; 
+      });
+      document.getElementById('topStatCounter').innerText = `圖鑑總收錄：${totalAlbums} 張專輯 / ${totalCards} 張小卡`;
+
+      // 2. 計算使用者自己的收集進度 (最下方顯示)
       let albumCount = 0;
       let cardCount = 0;
       myCollection.forEach(id => {
@@ -210,17 +220,11 @@
       });
       
       let totalOwned = albumCount + cardCount;
-      let totalItems = Object.keys(itemDictionary).length;
+      let totalItems = totalAlbums + totalCards;
       let percentage = totalItems === 0 ? 0 : Math.round((totalOwned / totalItems) * 100);
 
-      const countStr = `${albumCount} 張專輯 / ${cardCount} 張小卡`;
-      
-      // 更新頂部數字
-      document.getElementById('topStatCounter').innerText = countStr;
-      
-      // 更新底部數字與百分比
       document.getElementById('statCounter').innerHTML = `
-        <span>${countStr}</span>
+        <span>已收集：${albumCount} 專輯 / ${cardCount} 小卡</span>
         <span style="font-size:12px; font-weight:800; opacity:0.8;">${percentage}%</span>
       `;
       document.getElementById('staffFill').style.width = `${percentage}%`;
