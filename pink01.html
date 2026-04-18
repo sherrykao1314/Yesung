@@ -15,7 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Cinzel:wght@500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
   
   <style>
-    :root { --ys-blue-grey: #a1b0bd; --ys-deep-blue: #2c445e; --glass: rgba(255, 255, 255, 0.25); --pink-magic: #ff85a2; --wish-yellow: #ffd700; }
+    :root { --ys-blue-grey: #a1b0bd; --ys-deep-blue: #2c445e; --glass: rgba(255, 255, 255, 0.25); --pink-magic: #ff85a2; }
     html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; }
     
     .bg-layer { 
@@ -48,9 +48,9 @@
     .tab-btn { flex: 0 0 auto; padding: 8px 12px; background: transparent; border: none; border-radius: 12px; font-size: 0.9em; color: #333; cursor: pointer; transition: 0.3s; font-weight: 500; white-space: nowrap; }
     .tab-btn.active { background: rgba(255,255,255,0.8); color: var(--ys-deep-blue); font-weight: bold; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     
-    /* WISH 頁籤特殊顏色 */
-    .tab-btn[onclick*="wish"] { color: #856404; }
-    .tab-btn[onclick*="wish"].active { background: #fff3cd; }
+    /* WISH 頁籤專屬粉色系 */
+    .tab-btn[onclick*="wish"] { color: #d84b6b; }
+    .tab-btn[onclick*="wish"].active { background: #ffe3eb; box-shadow: 0 2px 8px rgba(255, 133, 162, 0.2); }
 
     .sub-nav-container { width: 100%; overflow-x: auto; white-space: nowrap; margin-bottom: 10px; scrollbar-width: none; }
     .sub-nav-container::-webkit-scrollbar { display: none; }
@@ -73,13 +73,12 @@
     .card.owned { background: #fff; transform: translateY(-2px); }
     .card.owned img { filter: grayscale(0%); opacity: 1; }
     
-    /* 想要標記星星按鈕 */
-    .wish-btn { position: absolute; top: 2px; right: 2px; width: 28px; height: 28px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #ccc; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: 0.2s; }
-    .card.in-wishlist .wish-btn { color: var(--wish-yellow); text-shadow: 0 0 2px rgba(0,0,0,0.2); }
+    /* 想要標記愛心按鈕 */
+    .wish-btn { position: absolute; top: 2px; right: 2px; width: 28px; height: 28px; background: rgba(255,255,255,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #ccc; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: 0.2s; }
+    .card.in-wishlist .wish-btn { color: var(--pink-magic); text-shadow: 0 0 2px rgba(255,133,162,0.4); }
     .wish-btn:active { transform: scale(1.2); }
 
     .card-name { font-size: 11px; margin-top: 8px; color: #333; line-height: 1.2; text-align: center; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    /* 來源文字僅在想要頁籤顯示 */
     .card-source { font-size: 9px; color: #666; margin-top: 4px; text-align: center; font-style: italic; display: none; }
     .wish-view .card-source { display: block; }
 
@@ -114,7 +113,8 @@
 
     <div class="app-container">
       <nav class="tab-nav">
-        <button class="tab-btn active" onclick="switchTab('korea', event)">KOREA</button>
+        <button class="tab-btn active" onclick="switchTab('wish', event)">❤ 想要</button>
+        <button class="tab-btn" onclick="switchTab('korea', event)">KOREA</button>
         <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
         <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
         <button class="tab-btn" onclick="switchTab('other_album', event)">其他專</button>
@@ -122,7 +122,6 @@
         <button class="tab-btn" onclick="switchTab('calendar', event)">年曆</button>
         <button class="tab-btn" onclick="switchTab('entry', event)">入場</button>
         <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
-        <button class="tab-btn" onclick="switchTab('wish', event)">⭐ 想要</button>
       </nav>
       <div class="sub-nav-container"><nav class="sub-nav" id="subNav"></nav></div>
       <div class="content-area" id="displayArea"><div class="empty-msg">與 Google 連線中...</div></div>
@@ -144,12 +143,12 @@
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzFgYBlnqAprAlxhQD4XT6ld0GGMHFOxsMLXEmoa1l_Kf38kcOg45hxReg9FueAVQD9/exec"; 
 
     const STORAGE_KEY = 'yesung_github_pc_list';
-    const WISH_KEY = 'yesung_wish_list'; // 新增想要的儲存 Key
+    const WISH_KEY = 'yesung_wish_list'; 
     
     let myCollection = [];
     let myWishlist = [];
     let itemDictionary = {}; 
-    let cardLookup = {}; // 用來快速找卡片資訊顯示來源
+    let cardLookup = {}; 
     
     try {
       myCollection = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -176,7 +175,7 @@
     }
 
     let allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
-    let currentTab = 'korea';
+    let currentTab = 'wish'; 
 
     fetch(GAS_API_URL + "?t=" + new Date().getTime())
       .then(response => response.json())
@@ -205,7 +204,7 @@
         itemDictionary[itemId] = itemType === '專輯' ? '專輯' : '小卡'; 
         
         const item = { id: itemId, name, imgUrl, type: itemType, release: release || '', header: albumHeader || '' };
-        cardLookup[itemId] = item; // 存入索引
+        cardLookup[itemId] = item; 
 
         if (countryRaw && release) {
           let c = countryRaw.toString().trim().toLowerCase();
@@ -236,7 +235,7 @@
           else allData[c][release][header].uncategorized.push(item);
         }
       });
-      switchTab('korea');
+      switchTab('wish'); 
       updateCounter(); 
     }
 
@@ -276,10 +275,10 @@
     function renderWishlist() {
       const area = document.getElementById('displayArea');
       if (myWishlist.length === 0) {
-        area.innerHTML = '<div class="empty-msg">清單空空的，快去星星標記想要的卡片吧！</div>';
+        area.innerHTML = '<div class="empty-msg">清單空空的，快去點擊愛心標記想要的卡片吧！</div>';
         return;
       }
-      area.insertAdjacentHTML('beforeend', `<div class="section-title">⭐ 我的想要清單 (${myWishlist.length})</div>`);
+      area.insertAdjacentHTML('beforeend', `<div class="section-title">❤ 我的想要清單 (${myWishlist.length})</div>`);
       const g = document.createElement('div'); g.className = 'grid';
       myWishlist.forEach(id => {
         if (cardLookup[id]) g.appendChild(createCard(cardLookup[id]));
@@ -337,13 +336,12 @@
       let imgHtml = item.imgUrl ? `<img src="${item.imgUrl}" onerror="this.src='https://via.placeholder.com/150x210?text=Error'" loading="lazy">` : `<div class="no-img-placeholder">歡迎提供<br>卡面</div>`;
       
       div.innerHTML = `
-        <div class="wish-btn">★</div>
+        <div class="wish-btn">❤</div>
         <div class="img-wrapper">${imgHtml}</div>
         <div class="card-name">${item.name || ''}</div>
         <div class="card-source">${item.release} ${item.header ? ' / ' + item.header : ''}</div>
       `;
 
-      // 點擊星星按鈕：加入/刪除 想要
       div.querySelector('.wish-btn').addEventListener('click', (e) => {
         e.stopPropagation();
         if (myWishlist.includes(itemId)) {
@@ -354,10 +352,9 @@
           div.classList.add('in-wishlist');
         }
         localStorage.setItem(WISH_KEY, JSON.stringify(myWishlist));
-        if (currentTab === 'wish') switchTab('wish'); // 在想要頁籤時即時更新畫面
+        if (currentTab === 'wish') switchTab('wish'); 
       });
 
-      // 點擊卡片本體：切換 已擁有
       div.addEventListener('click', () => {
         div.classList.toggle('owned');
         if (myCollection.includes(itemId)) {
