@@ -33,12 +33,14 @@
     .sub-credits { font-size: 0.75em; color: #222; margin-top: 2px; letter-spacing: 1px; font-weight: 500; }
     
     .notice-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; width: 100%; }
-    .notice-board { padding: 8px 15px; background: rgba(255, 255, 255, 0.4); border-radius: 12px; font-size: 0.85em; color: var(--ys-deep-blue); font-weight: 500; border: 1px dashed rgba(44, 68, 94, 0.3); max-width: 70%; word-wrap: break-word; text-align: left; line-height: 1.4; }
+    .notice-board { padding: 8px 15px; background: rgba(255, 255, 255, 0.4); border-radius: 12px; font-size: 0.85em; color: var(--ys-deep-blue); font-weight: 500; border: 1px dashed rgba(44, 68, 94, 0.3); max-width: 65%; word-wrap: break-word; text-align: left; line-height: 1.4; }
+    .btn-group { display: flex; flex-direction: column; gap: 6px; }
 
     .draw-btn { background: white; border: 1px solid var(--pink-magic); border-radius: 12px; padding: 6px 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 2px 8px rgba(255, 133, 162, 0.3); flex-shrink: 0; text-decoration: none; }
+    .draw-btn.guest-btn { border-color: var(--ys-blue-grey); box-shadow: 0 2px 8px rgba(161, 176, 189, 0.3); }
     .draw-btn:active { transform: scale(0.95); }
-    .draw-btn .heart-icon { color: var(--pink-magic); font-size: 1.2rem; }
-    .draw-btn .btn-txt { font-size: 9px; color: var(--pink-magic); font-weight: bold; margin-top: 2px; white-space: nowrap; }
+    .draw-btn .heart-icon { font-size: 1.2rem; }
+    .draw-btn .btn-txt { font-size: 9px; font-weight: bold; margin-top: 2px; white-space: nowrap; }
 
     .app-container { width: 100%; max-width: 800px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; }
     
@@ -75,12 +77,9 @@
     
     /* 想要標記愛心按鈕 */
     .wish-btn { 
-      position: absolute; top: 4px; right: 4px; 
-      width: 22px; height: 22px; 
-      background: rgba(255,255,255,0.9); 
-      border-radius: 50%; 
-      display: flex; align-items: center; justify-content: center; 
-      font-size: 13px; color: #aaa; 
+      position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; 
+      background: rgba(255,255,255,0.9); border-radius: 50%; 
+      display: flex; align-items: center; justify-content: center; font-size: 13px; color: #aaa; 
       z-index: 10; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: 0.2s; 
     }
     .wish-btn::after { content: '\2661\FE0E'; margin-top: 1px; }
@@ -101,6 +100,23 @@
     .clef { position: absolute; left: 0px; top: 50%; transform: translateY(-50%); font-size: 38px; color: rgba(44, 68, 94, 0.7); pointer-events: none; z-index: 1; }
     .staff-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: rgba(44, 68, 94, 0.2); border-right: 2px solid var(--ys-deep-blue); transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2; }
     .music-note { position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 20px; filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.3)); }
+
+    /* 留言板彈出視窗 CSS */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+    .modal-content { background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.6); width: 100%; max-width: 400px; max-height: 80vh; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.25); overflow: hidden; }
+    .modal-header { padding: 15px; background: rgba(255,255,255,0.4); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.5); font-weight: 600; color: var(--ys-deep-blue); }
+    .close-btn { background: none; border: none; font-size: 1.5rem; line-height: 1; cursor: pointer; color: var(--ys-deep-blue); padding: 0 5px; }
+    .message-list { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; -webkit-overflow-scrolling: touch; }
+    .msg-item { background: rgba(255,255,255,0.7); padding: 12px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
+    .msg-info { font-size: 0.8em; color: #666; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 4px; }
+    .msg-name { font-weight: bold; color: var(--ys-deep-blue); }
+    .msg-text { font-size: 0.95em; color: #333; line-height: 1.5; word-wrap: break-word; white-space: pre-wrap; }
+    .msg-form { padding: 15px; background: rgba(255,255,255,0.5); border-top: 1px solid rgba(255,255,255,0.5); display: flex; flex-direction: column; gap: 10px; }
+    .msg-input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; background: rgba(255,255,255,0.8); font-family: inherit; font-size: 0.9em; }
+    .msg-input:focus { outline: none; border-color: var(--pink-magic); }
+    .msg-textarea { resize: none; height: 60px; }
+    .msg-submit { background: var(--pink-magic); color: white; border: none; border-radius: 8px; padding: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.95em; }
+    .msg-submit:disabled { background: #ccc; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -114,10 +130,16 @@
       
       <div class="notice-container">
         <div id="noticeBoard" class="notice-board" style="display: none;"></div>
-        <button class="draw-btn" onclick="window.open('https://reurl.cc/mpMjgV', '_blank')">
-          <span class="heart-icon">❤</span>
-          <span class="btn-txt">PINK MAGIC 抽獎</span>
-        </button>
+        <div class="btn-group">
+          <button class="draw-btn" onclick="window.open('https://reurl.cc/mpMjgV', '_blank')">
+            <span class="heart-icon" style="color: var(--pink-magic);">❤</span>
+            <span class="btn-txt" style="color: var(--pink-magic);">PINK MAGIC 抽獎</span>
+          </button>
+          <button class="draw-btn guest-btn" onclick="openModal()">
+            <span class="heart-icon">💬</span>
+            <span class="btn-txt" style="color: var(--ys-deep-blue);">公開留言板</span>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -149,6 +171,23 @@
     </div>
   </div>
 
+  <div class="modal-overlay" id="guestbookModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>💬 交流留言板</span>
+        <button class="close-btn" onclick="closeModal()">×</button>
+      </div>
+      <div class="message-list" id="messageList">
+        <div style="text-align:center; color:#666; padding:20px; font-size:0.9em;">載入留言中...</div>
+      </div>
+      <div class="msg-form">
+        <input type="text" id="msgName" class="msg-input" placeholder="你的暱稱 (選填，預設匿名)" maxlength="20">
+        <textarea id="msgContent" class="msg-input msg-textarea" placeholder="說點什麼吧..." maxlength="200"></textarea>
+        <button class="msg-submit" id="msgSubmitBtn" onclick="sendMessage()">送出留言</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzFgYBlnqAprAlxhQD4XT6ld0GGMHFOxsMLXEmoa1l_Kf38kcOg45hxReg9FueAVQD9/exec"; 
 
@@ -159,6 +198,7 @@
     let myWishlist = [];
     let itemDictionary = {}; 
     let cardLookup = {}; 
+    let globalMessages = []; // 用來存放從 Google 抓回來的留言
     
     try {
       myCollection = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -190,16 +230,113 @@
     fetch(GAS_API_URL + "?t=" + new Date().getTime())
       .then(response => response.json())
       .then(result => {
+        // 站長公告
         if (result.message && result.message.toString().trim() !== "") {
           const noticeEl = document.getElementById('noticeBoard');
           noticeEl.innerHTML = `📢 ${result.message.toString().replace(/\n/g, '<br>')}`;
           noticeEl.style.display = 'inline-block';
         }
+        
+        // 取得公開留言板資料
+        if (result.guestMessages) {
+          globalMessages = result.guestMessages;
+        }
+
         processData(result.cards);
       })
       .catch(error => {
         document.getElementById('displayArea').innerHTML = '<div class="empty-msg">讀取資料失敗，請重新整理。</div>';
       });
+
+    // === 留言板相關功能 ===
+    function openModal() {
+      document.getElementById('guestbookModal').style.display = 'flex';
+      renderMessages();
+    }
+
+    function closeModal() {
+      document.getElementById('guestbookModal').style.display = 'none';
+    }
+
+    function renderMessages() {
+      const listEl = document.getElementById('messageList');
+      if (globalMessages.length === 0) {
+        listEl.innerHTML = '<div style="text-align:center; color:#666; padding:20px; font-size:0.9em;">還沒有人留言喔，來搶頭香吧！</div>';
+        return;
+      }
+      
+      let html = '';
+      globalMessages.forEach(msg => {
+        html += `
+          <div class="msg-item">
+            <div class="msg-info">
+              <span class="msg-name">${escapeHTML(msg.name)}</span>
+              <span>${msg.time}</span>
+            </div>
+            <div class="msg-text">${escapeHTML(msg.content)}</div>
+          </div>
+        `;
+      });
+      listEl.innerHTML = html;
+    }
+
+    function sendMessage() {
+      const nameInput = document.getElementById('msgName').value.trim();
+      const contentInput = document.getElementById('msgContent').value.trim();
+      
+      if (!contentInput) {
+        alert('請輸入留言內容喔！');
+        return;
+      }
+
+      const btn = document.getElementById('msgSubmitBtn');
+      btn.disabled = true;
+      btn.innerText = '傳送中...';
+
+      const sendData = {
+        name: nameInput || "匿名ELF",
+        content: contentInput
+      };
+
+      fetch(GAS_API_URL, {
+        method: 'POST',
+        body: JSON.stringify(sendData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          // 本地端直接加上新留言，畫面即時更新
+          const now = new Date();
+          const timeStr = `${now.getFullYear()}/${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+          
+          globalMessages.unshift({
+            name: sendData.name,
+            content: sendData.content,
+            time: timeStr
+          });
+          
+          document.getElementById('msgContent').value = ''; // 清空輸入框
+          renderMessages();
+        } else {
+          alert('傳送失敗，請稍後再試！');
+        }
+      })
+      .catch(err => {
+        alert('網路錯誤，傳送失敗！');
+      })
+      .finally(() => {
+        btn.disabled = false;
+        btn.innerText = '送出留言';
+      });
+    }
+
+    // 防止惡意程式碼輸入的過濾器
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, tag => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag]));
+    }
+    // === 留言板功能結束 ===
 
     function processData(cards) {
       allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
@@ -220,7 +357,6 @@
           let c = rawCountryStr.toLowerCase();
           let tabDisplayName = rawCountryStr;
 
-          // 對應出漂亮的頁籤名稱
           if (c === 'korea' || c === '韓專') { c = 'korea'; tabDisplayName = 'KOREA'; }
           else if (c === 'japan' || c === '日專') { c = 'japan'; tabDisplayName = 'JAPAN'; }
           else if (c === '大隊') { c = 'group'; tabDisplayName = '大隊專'; }
@@ -230,7 +366,7 @@
           else if (c === '入場') { c = 'entry'; tabDisplayName = '入場'; }
           else if (c === '雜誌') { c = 'magazine'; tabDisplayName = '雜誌'; }
           
-          item.tab = tabDisplayName; // 把頁籤名稱存進去
+          item.tab = tabDisplayName; 
           cardLookup[itemId] = item; 
 
           if (!allData[c]) allData[c] = {};
@@ -355,7 +491,6 @@
       
       let imgHtml = item.imgUrl ? `<img src="${item.imgUrl}" onerror="this.src='https://via.placeholder.com/150x210?text=Error'" loading="lazy">` : `<div class="no-img-placeholder">歡迎提供<br>卡面</div>`;
       
-      // 組合顯示來源文字：[頁籤] 發行 / 標題
       let sourceText = "";
       if (item.tab) sourceText += `[${item.tab}] `;
       if (item.release) sourceText += item.release;
