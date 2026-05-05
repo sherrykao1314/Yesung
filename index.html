@@ -68,7 +68,6 @@
     .album-header { font-family: 'Cinzel', serif; font-size: 1.25em; font-weight: 600; text-transform: uppercase; color: var(--ys-deep-blue); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(0,0,0,0.15); padding-bottom: 8px; letter-spacing: 2px; }
     .section-title { font-size: 1em; color: var(--ys-deep-blue); margin: 15px 0 10px 0; font-weight: bold; display: flex; align-items: center; gap: 6px; }
     
-    /* 專門調整想要清單標題的上間距 */
     .wish-view .section-title { margin-top: 5px; }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; margin-bottom: 20px; align-items: start; }
@@ -148,7 +147,7 @@
         <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
         <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
         <button class="tab-btn" onclick="switchTab('other_album', event)">其他專</button>
-        <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
+        <button class="tab-btn" onclick="switchTab('concert', event)">演唱會</button> <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
         <button class="tab-btn" onclick="switchTab('calendar', event)">年曆</button>
         <button class="tab-btn" onclick="switchTab('entry', event)">入場</button>
         <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
@@ -230,7 +229,8 @@
       document.getElementById('staffFill').style.width = `${percentage}%`;
     }
 
-    let allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
+    // 👑 這裡新增了 concert: {}
+    let allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
     let currentTab = 'wish'; 
 
     fetch(GAS_API_URL + "?t=" + new Date().getTime())
@@ -339,7 +339,8 @@
     }
 
     function processData(cards) {
-      allData = { korea: {}, japan: {}, group: {}, other_album: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
+      // 👑 這裡也新增了 concert: {}
+      allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
       cardLookup = {};
 
       cards.forEach(card => {
@@ -361,6 +362,7 @@
           else if (c === 'japan' || c === '日專') { c = 'japan'; tabDisplayName = 'JAPAN'; }
           else if (c === '大隊') { c = 'group'; tabDisplayName = '大隊專'; }
           else if (c === '其他專') { c = 'other_album'; tabDisplayName = '其他專'; }
+          else if (c === '演唱會') { c = 'concert'; tabDisplayName = '演唱會'; } // 👑 分類判斷邏輯
           else if (c === '其他' || c === '周邊') { c = 'merch'; tabDisplayName = '其他/周邊'; }
           else if (c === '年曆') { c = 'calendar'; tabDisplayName = '年曆'; }
           else if (c === '入場') { c = 'entry'; tabDisplayName = '入場'; }
@@ -410,12 +412,12 @@
 
       if (tabId === 'wish') {
         area.classList.add('wish-view');
-        subNavContainer.style.display = 'none'; // 隱藏多餘的空白區域
+        subNavContainer.style.display = 'none'; 
         renderWishlist();
         return;
       }
 
-      subNavContainer.style.display = 'block'; // 顯示第二層按鈕區域
+      subNavContainer.style.display = 'block'; 
       const releases = Object.keys(allData[tabId] || {});
       if (releases.length === 0) {
         area.innerHTML = '<div class="empty-msg">此分類尚無資料</div>';
