@@ -147,8 +147,7 @@
         <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
         <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
         <button class="tab-btn" onclick="switchTab('other_album', event)">其他專</button>
-        <button class="tab-btn" onclick="switchTab('concert', event)">演唱會</button>
-        <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
+        <button class="tab-btn" onclick="switchTab('concert', event)">演唱會</button> <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
         <button class="tab-btn" onclick="switchTab('calendar', event)">年曆</button>
         <button class="tab-btn" onclick="switchTab('entry', event)">入場</button>
         <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
@@ -230,31 +229,13 @@
       document.getElementById('staffFill').style.width = `${percentage}%`;
     }
 
+    // 👑 這裡新增了 concert: {}
     let allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
     let currentTab = 'wish'; 
 
     fetch(GAS_API_URL + "?t=" + new Date().getTime())
       .then(response => response.json())
       .then(result => {
-        // ✨ 強制更新檢查邏輯 開始 ✨
-        if (result.version) {
-          const VERSION_KEY = 'yesung_app_version';
-          const localVersion = localStorage.getItem(VERSION_KEY);
-          
-          if (localVersion && localVersion !== result.version) {
-            // 如果本地版本與伺服器不同，更新紀錄並強制清除快取重整
-            localStorage.setItem(VERSION_KEY, result.version);
-            const url = new URL(window.location.href);
-            url.searchParams.set('reload', new Date().getTime()); // 加上隨機參數破壞捷徑快取
-            window.location.replace(url.href);
-            return; // 終止後續的畫面渲染
-          } else if (!localVersion) {
-            // 第一次開啟，記錄版本號
-            localStorage.setItem(VERSION_KEY, result.version);
-          }
-        }
-        // ✨ 強制更新檢查邏輯 結束 ✨
-
         if (result.message && result.message.toString().trim() !== "") {
           const noticeEl = document.getElementById('noticeBoard');
           noticeEl.innerHTML = `📢 ${result.message.toString().replace(/\n/g, '<br>')}`;
@@ -358,6 +339,7 @@
     }
 
     function processData(cards) {
+      // 👑 這裡也新增了 concert: {}
       allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
       cardLookup = {};
 
@@ -380,7 +362,7 @@
           else if (c === 'japan' || c === '日專') { c = 'japan'; tabDisplayName = 'JAPAN'; }
           else if (c === '大隊') { c = 'group'; tabDisplayName = '大隊專'; }
           else if (c === '其他專') { c = 'other_album'; tabDisplayName = '其他專'; }
-          else if (c === '演唱會') { c = 'concert'; tabDisplayName = '演唱會'; } 
+          else if (c === '演唱會') { c = 'concert'; tabDisplayName = '演唱會'; } // 👑 分類判斷邏輯
           else if (c === '其他' || c === '周邊') { c = 'merch'; tabDisplayName = '其他/周邊'; }
           else if (c === '年曆') { c = 'calendar'; tabDisplayName = '年曆'; }
           else if (c === '入場') { c = 'entry'; tabDisplayName = '入場'; }
