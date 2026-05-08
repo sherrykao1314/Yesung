@@ -147,9 +147,9 @@
         <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
         <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
         <button class="tab-btn" onclick="switchTab('other_album', event)">其他專</button>
-        <button class="tab-btn" onclick="switchTab('concert', event)">演唱會</button> <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
+        <button class="tab-btn" onclick="switchTab('concert', event)">演唱會</button> 
+        <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
         <button class="tab-btn" onclick="switchTab('calendar', event)">年曆</button>
-        <button class="tab-btn" onclick="switchTab('entry', event)">入場</button>
         <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
       </nav>
       <div class="sub-nav-container" id="subNavContainer"><nav class="sub-nav" id="subNav"></nav></div>
@@ -229,8 +229,7 @@
       document.getElementById('staffFill').style.width = `${percentage}%`;
     }
 
-    // 👑 這裡新增了 concert: {}
-    let allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
+    let allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
     let currentTab = 'wish'; 
 
     fetch(GAS_API_URL + "?t=" + new Date().getTime())
@@ -339,8 +338,7 @@
     }
 
     function processData(cards) {
-      // 👑 這裡也新增了 concert: {}
-      allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, entry: {}, magazine: {} };
+      allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
       cardLookup = {};
 
       cards.forEach(card => {
@@ -362,10 +360,9 @@
           else if (c === 'japan' || c === '日專') { c = 'japan'; tabDisplayName = 'JAPAN'; }
           else if (c === '大隊') { c = 'group'; tabDisplayName = '大隊專'; }
           else if (c === '其他專') { c = 'other_album'; tabDisplayName = '其他專'; }
-          else if (c === '演唱會') { c = 'concert'; tabDisplayName = '演唱會'; } // 👑 分類判斷邏輯
+          else if (c === '演唱會') { c = 'concert'; tabDisplayName = '演唱會'; } 
           else if (c === '其他' || c === '周邊') { c = 'merch'; tabDisplayName = '其他/周邊'; }
           else if (c === '年曆') { c = 'calendar'; tabDisplayName = '年曆'; }
-          else if (c === '入場') { c = 'entry'; tabDisplayName = '入場'; }
           else if (c === '雜誌') { c = 'magazine'; tabDisplayName = '雜誌'; }
           
           item.tab = tabDisplayName; 
@@ -376,7 +373,7 @@
           
           const header = albumHeader ? albumHeader.toString().trim() : ""; 
           if (!allData[c][release][header]) {
-            allData[c][release][header] = { albums: [], photocards: [], specialCards: [], fansignCards: [], randomCards: [], bonusCards: [], wonFansignCards: [], luckyCards: [], otherCards: [], uncategorized: [] }; 
+            allData[c][release][header] = { albums: [], photocards: [], specialCards: [], fansignCards: [], randomCards: [], bonusCards: [], wonFansignCards: [], luckyCards: [], entryCards: [], otherCards: [], uncategorized: [] }; 
           }
           
           if (itemType === '專輯') allData[c][release][header].albums.push(item);
@@ -386,6 +383,7 @@
           else if (itemType === '滿額') allData[c][release][header].bonusCards.push(item);
           else if (itemType === '中簽') allData[c][release][header].wonFansignCards.push(item); 
           else if (itemType === '幸運') allData[c][release][header].luckyCards.push(item); 
+          else if (itemType === '入場') allData[c][release][header].entryCards.push(item); // 👑 新增 G欄 入場判斷
           else if (itemType === '其他') allData[c][release][header].otherCards.push(item);
           else if (itemType === '小卡') allData[c][release][header].photocards.push(item);
           else allData[c][release][header].uncategorized.push(item);
@@ -479,6 +477,7 @@
         renderGrid("✍️ 簽售小卡", data.fansignCards);
         renderGrid("🎉 中簽卡", data.wonFansignCards);
         renderGrid("🍀 幸運卡", data.luckyCards);
+        renderGrid("🎟️ 入場卡", data.entryCards); // 👑 新增 顯示入場卡區塊
         renderGrid("🎲 隨機卡", data.randomCards);
         renderGrid("🛍️ 滿額卡", data.bonusCards);
         renderGrid("📌 其他小卡", data.otherCards);
