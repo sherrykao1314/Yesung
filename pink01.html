@@ -383,7 +383,7 @@
           else if (itemType === '滿額') allData[c][release][header].bonusCards.push(item);
           else if (itemType === '中簽') allData[c][release][header].wonFansignCards.push(item); 
           else if (itemType === '幸運') allData[c][release][header].luckyCards.push(item); 
-          else if (itemType === '入場') allData[c][release][header].entryCards.push(item); // 👑 新增 G欄 入場判斷
+          else if (itemType === '入場') allData[c][release][header].entryCards.push(item);
           else if (itemType === '其他') allData[c][release][header].otherCards.push(item);
           else if (itemType === '小卡') allData[c][release][header].photocards.push(item);
           else allData[c][release][header].uncategorized.push(item);
@@ -399,7 +399,10 @@
       currentTab = tabId;
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       if(event) event.currentTarget.classList.add('active');
-      else document.querySelector(`.tab-btn[onclick*="${tabId}"]`).classList.add('active');
+      else {
+        const btn = document.querySelector(`.tab-btn[onclick*="${tabId}"]`);
+        if(btn) btn.classList.add('active');
+      }
       
       const subNavContainer = document.getElementById('subNavContainer');
       const subNav = document.getElementById('subNav');
@@ -416,7 +419,11 @@
       }
 
       subNavContainer.style.display = 'block'; 
-      const releases = Object.keys(allData[tabId] || {});
+      let releases = Object.keys(allData[tabId] || {});
+      
+      // 👑 新增排序邏輯：將子標籤（如 2026、2025）由大到小排序
+      releases.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
+
       if (releases.length === 0) {
         area.innerHTML = '<div class="empty-msg">此分類尚無資料</div>';
         return;
@@ -477,7 +484,7 @@
         renderGrid("✍️ 簽售小卡", data.fansignCards);
         renderGrid("🎉 中簽卡", data.wonFansignCards);
         renderGrid("🍀 幸運卡", data.luckyCards);
-        renderGrid("🎟️ 入場卡", data.entryCards); // 👑 新增 顯示入場卡區塊
+        renderGrid("🎟️ 入場卡", data.entryCards); 
         renderGrid("🎲 隨機卡", data.randomCards);
         renderGrid("🛍️ 滿額卡", data.bonusCards);
         renderGrid("📌 其他小卡", data.otherCards);
