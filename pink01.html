@@ -29,7 +29,7 @@
       z-index: -1; pointer-events: none; 
     }
     
-    .scroll-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; padding: 5px 15px 90px 15px; box-sizing: border-box; }
+    .scroll-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; padding: 5px 15px 115px 15px; box-sizing: border-box; }
     header { text-align: center; margin-bottom: 10px; width: 100%; max-width: 800px; background: var(--glass); padding: 15px 20px; border-radius: 18px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); box-sizing: border-box; }
     .main-title { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--ys-deep-blue); margin: 0; display: flex; align-items: baseline; justify-content: center; gap: 8px; }
     .yesung-txt { font-size: 2.8rem; letter-spacing: -0.5px; }
@@ -94,12 +94,15 @@
     .no-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(44, 68, 94, 0.05); color: var(--ys-deep-blue); font-size: 0.85em; font-weight: 600; text-align: center; padding: 10px; box-sizing: border-box; border: 1px dashed rgba(44, 68, 94, 0.2); line-height: 1.5; }
     .empty-msg { text-align: center; color: #333; padding: 40px; font-style: italic; font-weight: 500; }
     
-    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.5); padding: 10px 20px 20px 20px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.08); z-index: 999; }
-    .stat-text { display: flex; justify-content: space-between; align-items: flex-end; font-size: 13px; font-weight: 600; color: var(--ys-deep-blue); margin-bottom: 12px; letter-spacing: 0.5px; }
-    .staff-container { position: relative; width: 100%; height: 25px; background-image: linear-gradient(rgba(44, 68, 94, 0.3) 1px, transparent 1px); background-size: 100% 6px; background-position: 0 1px; }
-    .clef { position: absolute; left: 0px; top: 50%; transform: translateY(-50%); font-size: 38px; color: rgba(44, 68, 94, 0.7); pointer-events: none; z-index: 1; }
-    .staff-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: rgba(44, 68, 94, 0.2); border-right: 2px solid var(--ys-deep-blue); transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 2; }
-    .music-note { position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-size: 20px; filter: drop-shadow(1px 2px 2px rgba(0,0,0,0.3)); }
+    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.5); padding: 12px 20px 20px 20px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 999; }
+    .dual-stat-container { display: flex; flex-direction: column; gap: 8px; }
+    .stat-row { display: flex; flex-direction: column; gap: 4px; }
+    .stat-text { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--ys-deep-blue); letter-spacing: 0.5px; }
+    .staff-container { position: relative; width: 100%; height: 18px; background: rgba(44, 68, 94, 0.1); border-radius: 10px; overflow: hidden; border: 1px solid rgba(44, 68, 94, 0.1); }
+    .staff-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: rgba(44, 68, 94, 0.3); transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; box-sizing: border-box; }
+    .fill-album { background: rgba(44, 68, 94, 0.4); }
+    .fill-card { background: rgba(255, 133, 162, 0.3); }
+    .staff-icon { font-size: 14px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); }
 
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
     .modal-content { background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.6); width: 100%; max-width: 400px; max-height: 80vh; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.25); overflow: hidden; }
@@ -158,13 +161,29 @@
   </div>
 
   <div class="bottom-bar">
-    <div class="stat-text" id="statCounter">
-      <span>已收集：0 張專輯 / 0 張小卡</span>
-      <span style="font-size:11px; opacity:0.8;">0%</span>
-    </div>
-    <div class="staff-container">
-      <div class="clef">&#x1D11E;</div> <div class="staff-fill" id="staffFill">
-        <div class="music-note">&#x1F3B5;</div> </div>
+    <div class="dual-stat-container">
+      <div class="stat-row">
+        <div class="stat-text" id="albumCounter">
+          <span>💿 專輯進度：0 / 0</span>
+          <span class="percent-tag">0%</span>
+        </div>
+        <div class="staff-container">
+          <div class="staff-fill fill-album" id="albumFill">
+            <span class="staff-icon">💿</span>
+          </div>
+        </div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-text" id="cardCounter">
+          <span>🎵 小卡進度：0 / 0</span>
+          <span class="percent-tag">0%</span>
+        </div>
+        <div class="staff-container">
+          <div class="staff-fill fill-card" id="cardFill">
+            <span class="staff-icon">🎵</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -203,30 +222,32 @@
     } catch(e) {}
 
     function updateCounter() {
-      let totalAlbums = 0;
-      let totalCards = 0;
+      let totalAlbumsCount = 0;
+      let totalCardsCount = 0;
       Object.values(itemDictionary).forEach(type => {
-        if (type === '專輯') totalAlbums++;
-        else if (type) totalCards++; 
+        if (type === '專輯') totalAlbumsCount++;
+        else totalCardsCount++; 
       });
-      document.getElementById('topStatCounter').innerText = `圖鑑總收錄：${totalAlbums} 張專輯 / ${totalCards} 張小卡`;
 
-      let albumCount = 0;
-      let cardCount = 0;
+      document.getElementById('topStatCounter').innerText = `圖鑑總收錄：${totalAlbumsCount} 張專輯 / ${totalCardsCount} 張小卡`;
+
+      let ownedAlbums = 0;
+      let ownedCards = 0;
       myCollection.forEach(id => {
-        if (itemDictionary[id] === '專輯') albumCount++;
-        else if (itemDictionary[id]) cardCount++;
+        if (itemDictionary[id] === '專輯') ownedAlbums++;
+        else if (itemDictionary[id]) ownedCards++;
       });
       
-      let totalOwned = albumCount + cardCount;
-      let totalItems = totalAlbums + totalCards;
-      let percentage = totalItems === 0 ? 0 : Math.round((totalOwned / totalItems) * 100);
+      const albumPercent = totalAlbumsCount === 0 ? 0 : Math.round((ownedAlbums / totalAlbumsCount) * 100);
+      const cardPercent = totalCardsCount === 0 ? 0 : Math.round((ownedCards / totalCardsCount) * 100);
 
-      document.getElementById('statCounter').innerHTML = `
-        <span>已收集：${albumCount} 專輯 / ${cardCount} 小卡</span>
-        <span style="font-size:12px; font-weight:800; opacity:0.8;">${percentage}%</span>
-      `;
-      document.getElementById('staffFill').style.width = `${percentage}%`;
+      // 更新專輯 UI
+      document.getElementById('albumCounter').innerHTML = `<span>💿 專輯進度：${ownedAlbums} / ${totalAlbumsCount}</span><span class="percent-tag">${albumPercent}%</span>`;
+      document.getElementById('albumFill').style.width = `${albumPercent}%`;
+
+      // 更新小卡 UI
+      document.getElementById('cardCounter').innerHTML = `<span>🎵 小卡進度：${ownedCards} / ${totalCardsCount}</span><span class="percent-tag">${cardPercent}%</span>`;
+      document.getElementById('cardFill').style.width = `${cardPercent}%`;
     }
 
     let allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
@@ -421,7 +442,6 @@
       subNavContainer.style.display = 'block'; 
       let releases = Object.keys(allData[tabId] || {});
       
-      // 👑 只有「年曆」分頁（calendar）才執行降序排列
       if (tabId === 'calendar') {
         releases.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
       }
