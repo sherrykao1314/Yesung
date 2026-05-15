@@ -98,11 +98,15 @@
     .dual-stat-container { display: flex; flex-direction: column; gap: 8px; }
     .stat-row { display: flex; flex-direction: column; gap: 4px; }
     .stat-text { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--ys-deep-blue); letter-spacing: 0.5px; }
-    .staff-container { position: relative; width: 100%; height: 18px; background: rgba(44, 68, 94, 0.1); border-radius: 10px; overflow: hidden; border: 1px solid rgba(44, 68, 94, 0.1); }
-    .staff-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: rgba(44, 68, 94, 0.3); transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 5px; box-sizing: border-box; }
-    .fill-album { background: rgba(44, 68, 94, 0.4); }
+    
+    /* 修改這裡：拿掉 overflow: hidden，讓圖示完整顯示，並設定高度 */
+    .staff-container { position: relative; width: 100%; height: 16px; background: rgba(44, 68, 94, 0.1); border-radius: 10px; border: 1px solid rgba(44, 68, 94, 0.1); }
+    /* 修改這裡：為 fill 加上 border-radius，並設定圖示對齊方式 */
+    .staff-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; border-radius: 10px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 2px; box-sizing: border-box; }
+    .fill-album { background: rgba(44, 68, 94, 0.3); }
     .fill-card { background: rgba(255, 133, 162, 0.3); }
-    .staff-icon { font-size: 14px; filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.2)); }
+    /* 修改這裡：微調圖示大小、陰影與垂直對齊 */
+    .staff-icon { font-size: 15px; line-height: 1; transform: translateY(-1px); filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)); }
 
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
     .modal-content { background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.6); width: 100%; max-width: 400px; max-height: 80vh; border-radius: 20px; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.25); overflow: hidden; }
@@ -164,7 +168,7 @@
     <div class="dual-stat-container">
       <div class="stat-row">
         <div class="stat-text" id="albumCounter">
-          <span>💿 專輯進度：0 / 0</span>
+          <span>專輯進度：0 / 0</span>
           <span class="percent-tag">0%</span>
         </div>
         <div class="staff-container">
@@ -175,7 +179,7 @@
       </div>
       <div class="stat-row">
         <div class="stat-text" id="cardCounter">
-          <span>🎵 小卡進度：0 / 0</span>
+          <span>小卡進度：0 / 0</span>
           <span class="percent-tag">0%</span>
         </div>
         <div class="staff-container">
@@ -241,12 +245,12 @@
       const albumPercent = totalAlbumsCount === 0 ? 0 : Math.round((ownedAlbums / totalAlbumsCount) * 100);
       const cardPercent = totalCardsCount === 0 ? 0 : Math.round((ownedCards / totalCardsCount) * 100);
 
-      // 更新專輯 UI
-      document.getElementById('albumCounter').innerHTML = `<span>💿 專輯進度：${ownedAlbums} / ${totalAlbumsCount}</span><span class="percent-tag">${albumPercent}%</span>`;
+      // 更新專輯 UI (已移除文字前圖示)
+      document.getElementById('albumCounter').innerHTML = `<span>專輯進度：${ownedAlbums} / ${totalAlbumsCount}</span><span class="percent-tag">${albumPercent}%</span>`;
       document.getElementById('albumFill').style.width = `${albumPercent}%`;
 
-      // 更新小卡 UI
-      document.getElementById('cardCounter').innerHTML = `<span>🎵 小卡進度：${ownedCards} / ${totalCardsCount}</span><span class="percent-tag">${cardPercent}%</span>`;
+      // 更新小卡 UI (已移除文字前圖示)
+      document.getElementById('cardCounter').innerHTML = `<span>小卡進度：${ownedCards} / ${totalCardsCount}</span><span class="percent-tag">${cardPercent}%</span>`;
       document.getElementById('cardFill').style.width = `${cardPercent}%`;
     }
 
