@@ -16,7 +16,7 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Cinzel:wght@500;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Montserrat:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <style>
     :root { --ys-blue-grey: #a1b0bd; --ys-deep-blue: #2c445e; --glass: rgba(255, 255, 255, 0.25); --pink-magic: #ff85a2; }
@@ -29,25 +29,68 @@
       z-index: -1; pointer-events: none; 
     }
     
-    /* 調整了 padding-bottom，因為底部空間變小了，留白可以縮減 */
     .scroll-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; padding: 5px 15px 90px 15px; box-sizing: border-box; }
-    header { text-align: center; margin-bottom: 10px; width: 100%; max-width: 800px; background: var(--glass); padding: 15px 20px; border-radius: 18px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); box-sizing: border-box; }
-    .main-title { font-family: 'Cormorant Garamond', serif; font-weight: 600; color: var(--ys-deep-blue); margin: 0; display: flex; align-items: baseline; justify-content: center; gap: 8px; }
-    .yesung-txt { font-size: 2.8rem; letter-spacing: -0.5px; }
-    .album-txt { font-size: 1.5rem; opacity: 0.95; }
-    .sub-credits { font-size: 0.75em; color: #222; margin-top: 2px; letter-spacing: 1px; font-weight: 500; }
     
-    .top-stat-bar { margin-top: 10px; font-size: 12px; font-weight: 600; color: var(--ys-deep-blue); background: rgba(255,255,255,0.4); padding: 5px 16px; border-radius: 20px; display: inline-block; border: 1px solid rgba(255,255,255,0.5); letter-spacing: 0.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    header { 
+      width: 100%; max-width: 800px; 
+      background: var(--glass); padding: 12px 16px; 
+      border-radius: 18px; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); 
+      border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); 
+      box-sizing: border-box; margin-bottom: 12px; 
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    
+    .header-top { 
+      display: flex; justify-content: space-between; align-items: center; 
+    }
+    .title-group { 
+      text-align: left; display: flex; flex-direction: column; gap: 2px;
+    }
+    /* 標題與副標改為白色，加上淡陰影增加可讀性 */
+    .main-title { 
+      font-family: 'Playfair Display', serif; color: white; margin: 0; 
+      display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    }
+    .yesung-txt { 
+      font-size: 2.3rem; font-style: italic; font-weight: 700; letter-spacing: 0.5px; line-height: 1;
+    }
+    .album-txt { 
+      font-family: 'Montserrat', sans-serif; font-size: 0.9rem; text-transform: uppercase; 
+      letter-spacing: 1.5px; font-weight: 600; opacity: 0.95; line-height: 1;
+    }
+    .sub-credits { 
+      font-size: 0.75rem; color: white; font-family: 'Montserrat', sans-serif; opacity: 0.9; font-weight: 500;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
 
-    .notice-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; width: 100%; }
-    .notice-board { padding: 8px 15px; background: rgba(255, 255, 255, 0.4); border-radius: 12px; font-size: 0.85em; color: var(--ys-deep-blue); font-weight: 500; border: 1px dashed rgba(44, 68, 94, 0.3); max-width: 65%; word-wrap: break-word; text-align: left; line-height: 1.4; }
-    .btn-group { display: flex; flex-direction: column; gap: 6px; }
-
-    .draw-btn { background: white; border: 1px solid var(--pink-magic); border-radius: 12px; padding: 6px 10px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 2px 8px rgba(255, 133, 162, 0.3); flex-shrink: 0; text-decoration: none; }
-    .draw-btn.guest-btn { border-color: var(--ys-blue-grey); box-shadow: 0 2px 8px rgba(161, 176, 189, 0.3); }
+    .draw-btn { 
+      background: rgba(255,255,255,0.8); border: 1px solid var(--ys-blue-grey); border-radius: 12px; 
+      padding: 6px 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; 
+      justify-content: center; transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.08); flex-shrink: 0; text-decoration: none;
+    }
     .draw-btn:active { transform: scale(0.95); }
-    .draw-btn .heart-icon { font-size: 1.2rem; }
-    .draw-btn .btn-txt { font-size: 9px; font-weight: bold; margin-top: 2px; white-space: nowrap; }
+    .draw-btn .heart-icon { font-size: 1.2rem; margin-bottom: 2px; }
+    .draw-btn .btn-txt { font-size: 10px; font-weight: bold; white-space: nowrap; color: var(--ys-deep-blue); margin-top: 2px; }
+
+    .header-bottom { 
+      display: flex; gap: 8px; width: 100%; align-items: stretch; justify-content: space-between;
+    }
+    /* 調整數據區塊的比例為 36%，並設定斷行對齊 */
+    .top-stat-bar { 
+      flex: 0 0 36%; min-width: 0; font-size: 11px; font-weight: 600; color: var(--ys-deep-blue); 
+      background: rgba(255,255,255,0.5); padding: 8px 6px; border-radius: 12px; 
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+      margin: 0; box-sizing: border-box; line-height: 1.4; letter-spacing: 0.5px;
+    }
+    /* 佈告欄佔用剩下的寬度 */
+    .notice-board { 
+      flex: 1; min-width: 0; padding: 8px 10px; background: rgba(255, 255, 255, 0.5); border-radius: 12px; 
+      font-size: 11px; color: var(--ys-deep-blue); font-weight: 600; 
+      border: 1px dashed rgba(44, 68, 94, 0.4); text-align: left; line-height: 1.4; 
+      margin: 0; box-sizing: border-box; word-break: break-word; display: flex; align-items: center;
+    }
 
     .app-container { width: 100%; max-width: 800px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; }
     
@@ -66,7 +109,7 @@
     .sub-btn { padding: 8px 18px; background: rgba(255,255,255,0.3); border: 1px solid rgba(255,255,255,0.4); border-radius: 20px; font-size: 0.85em; color: #333; cursor: pointer; font-weight: 500; }
     .sub-btn.active { background: var(--ys-deep-blue); color: #fff; border-color: var(--ys-deep-blue); }
     
-    .album-header { font-family: 'Cinzel', serif; font-size: 1.25em; font-weight: 600; text-transform: uppercase; color: var(--ys-deep-blue); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(0,0,0,0.15); padding-bottom: 8px; letter-spacing: 2px; }
+    .album-header { font-family: 'Montserrat', sans-serif; font-size: 1.1em; font-weight: 600; text-transform: uppercase; color: var(--ys-deep-blue); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(0,0,0,0.15); padding-bottom: 8px; letter-spacing: 2px; }
     .section-title { font-size: 1em; color: var(--ys-deep-blue); margin: 15px 0 10px 0; font-weight: bold; display: flex; align-items: center; gap: 6px; }
     
     .wish-view .section-title { margin-top: 5px; }
@@ -95,29 +138,25 @@
     .no-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(44, 68, 94, 0.05); color: var(--ys-deep-blue); font-size: 0.85em; font-weight: 600; text-align: center; padding: 10px; box-sizing: border-box; border: 1px dashed rgba(44, 68, 94, 0.2); line-height: 1.5; }
     .empty-msg { text-align: center; color: #333; padding: 40px; font-style: italic; font-weight: 500; }
     
-    /* 全新微型雙進度條設計 */
     .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.5); padding: 10px 15px 15px 15px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 999; padding-bottom: calc(15px + env(safe-area-inset-bottom)); }
     .dual-stat-container { display: flex; flex-direction: column; gap: 8px; } 
     
-    /* 橫向排版：讓標籤、進度條、百分比在同一行 */
     .stat-row { display: flex; flex-direction: row; align-items: center; gap: 8px; }
     .stat-label { font-size: 11px; font-weight: bold; color: var(--ys-deep-blue); white-space: nowrap; width: 85px; }
     .stat-percent { font-size: 11px; font-weight: bold; color: var(--ys-deep-blue); width: 30px; text-align: right; }
     
-    /* 進度條改為極細版本 */
     .staff-container { flex: 1; position: relative; height: 8px; background: rgba(44, 68, 94, 0.1); border-radius: 4px; border: 1px solid rgba(44, 68, 94, 0.15); box-sizing: border-box; }
     .staff-fill { position: absolute; top: 0; left: 0; height: 100%; width: 0%; border-radius: 4px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .fill-album { background: rgba(44, 68, 94, 0.4); }
     .fill-card { background: rgba(255, 133, 162, 0.45); }
     
-    /* 圖示縮小微調 */
     .staff-icon { 
       position: absolute; 
       top: 50%; 
       right: 0; 
       transform: translate(50%, -50%) translateZ(0); 
       -webkit-transform: translate(50%, -50%) translateZ(0);
-      font-size: 12px; /* 縮小圖示以符合微型進度條 */
+      font-size: 12px; 
       line-height: 1; 
       text-shadow: 1px 1px 2px rgba(0,0,0,0.2); 
       z-index: 10; 
@@ -146,19 +185,20 @@
 
   <div class="scroll-wrapper">
     <header>
-      <h1 class="main-title"><span class="yesung-txt">Yesung</span><span class="album-txt">Album&Card</span></h1>
-      <div class="sub-credits">Threads @sherrykao1314</div>
-      
-      <div class="top-stat-bar" id="topStatCounter">資料庫載入中...</div>
-      
-      <div class="notice-container">
-        <div id="noticeBoard" class="notice-board" style="display: none;"></div>
-        <div class="btn-group">
-          <button class="draw-btn guest-btn" onclick="openModal()">
-            <span class="heart-icon">💬</span>
-            <span class="btn-txt" style="color: var(--ys-deep-blue);">公開留言板</span>
-          </button>
+      <div class="header-top">
+        <div class="title-group">
+          <h1 class="main-title"><span class="yesung-txt">Yesung</span><span class="album-txt">Album&Card</span></h1>
+          <div class="sub-credits">Threads @sherrykao1314</div>
         </div>
+        <button class="draw-btn guest-btn" onclick="openModal()">
+          <span class="heart-icon">💬</span>
+          <span class="btn-txt" style="color: var(--ys-deep-blue);">公開留言板</span>
+        </button>
+      </div>
+      
+      <div class="header-bottom">
+        <div class="top-stat-bar" id="topStatCounter">資料庫<br>載入中...</div>
+        <div id="noticeBoard" class="notice-board" style="display: none;"></div>
       </div>
     </header>
 
@@ -244,7 +284,8 @@
         else totalCardsCount++; 
       });
 
-      document.getElementById('topStatCounter').innerText = `圖鑑總收錄：${totalAlbumsCount} 張專輯 / ${totalCardsCount} 張小卡`;
+      // 這裡改成斷三行的格式
+      document.getElementById('topStatCounter').innerHTML = `圖鑑總收錄<br>${totalAlbumsCount} 張專輯<br>${totalCardsCount} 張小卡`;
 
       let ownedAlbums = 0;
       let ownedCards = 0;
@@ -256,12 +297,10 @@
       const albumPercent = totalAlbumsCount === 0 ? 0 : Math.round((ownedAlbums / totalAlbumsCount) * 100);
       const cardPercent = totalCardsCount === 0 ? 0 : Math.round((ownedCards / totalCardsCount) * 100);
 
-      // 更新微型專輯進度
       document.getElementById('albumLabel').innerText = `💿 專輯 ${ownedAlbums}/${totalAlbumsCount}`;
       document.getElementById('albumPercent').innerText = `${albumPercent}%`;
       document.getElementById('albumFill').style.width = `${albumPercent}%`;
 
-      // 更新微型小卡進度
       document.getElementById('cardLabel').innerText = `🎵 小卡 ${ownedCards}/${totalCardsCount}`;
       document.getElementById('cardPercent').innerText = `${cardPercent}%`;
       document.getElementById('cardFill').style.width = `${cardPercent}%`;
