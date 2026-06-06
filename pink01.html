@@ -16,7 +16,6 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   
-  <!-- 替換了更優雅的高級襯線字體與無襯線字體 -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Montserrat:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <style>
@@ -32,7 +31,6 @@
     
     .scroll-wrapper { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; padding: 5px 15px 90px 15px; box-sizing: border-box; }
     
-    /* === 全新左右平衡排版 Header 開始 === */
     header { 
       width: 100%; max-width: 800px; 
       background: var(--glass); padding: 12px 16px; 
@@ -42,29 +40,30 @@
       display: flex; flex-direction: column; gap: 10px;
     }
     
-    /* 上半部：標題與按鈕分佔左右 */
     .header-top { 
       display: flex; justify-content: space-between; align-items: center; 
     }
     .title-group { 
       text-align: left; display: flex; flex-direction: column; gap: 2px;
     }
+    /* 標題與副標改為白色，加上淡陰影增加可讀性 */
     .main-title { 
-      font-family: 'Playfair Display', serif; color: var(--ys-deep-blue); margin: 0; 
+      font-family: 'Playfair Display', serif; color: white; margin: 0; 
       display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.25);
     }
     .yesung-txt { 
       font-size: 2.3rem; font-style: italic; font-weight: 700; letter-spacing: 0.5px; line-height: 1;
     }
     .album-txt { 
       font-family: 'Montserrat', sans-serif; font-size: 0.9rem; text-transform: uppercase; 
-      letter-spacing: 1.5px; font-weight: 600; opacity: 0.85; line-height: 1;
+      letter-spacing: 1.5px; font-weight: 600; opacity: 0.95; line-height: 1;
     }
     .sub-credits { 
-      font-size: 0.75rem; color: #222; font-family: 'Montserrat', sans-serif; opacity: 0.8; font-weight: 500;
+      font-size: 0.75rem; color: white; font-family: 'Montserrat', sans-serif; opacity: 0.9; font-weight: 500;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.25);
     }
 
-    /* 右上角留言板按鈕 */
     .draw-btn { 
       background: rgba(255,255,255,0.8); border: 1px solid var(--ys-blue-grey); border-radius: 12px; 
       padding: 6px 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; 
@@ -74,24 +73,24 @@
     .draw-btn .heart-icon { font-size: 1.2rem; margin-bottom: 2px; }
     .draw-btn .btn-txt { font-size: 10px; font-weight: bold; white-space: nowrap; color: var(--ys-deep-blue); margin-top: 2px; }
 
-    /* 下半部：數據與公告並排 */
     .header-bottom { 
       display: flex; gap: 8px; width: 100%; align-items: stretch; justify-content: space-between;
     }
+    /* 調整數據區塊的比例為 36%，並設定斷行對齊 */
     .top-stat-bar { 
-      flex: 1; min-width: 0; font-size: 11px; font-weight: 600; color: var(--ys-deep-blue); 
-      background: rgba(255,255,255,0.5); padding: 8px 10px; border-radius: 12px; 
+      flex: 0 0 36%; min-width: 0; font-size: 11px; font-weight: 600; color: var(--ys-deep-blue); 
+      background: rgba(255,255,255,0.5); padding: 8px 6px; border-radius: 12px; 
       display: flex; align-items: center; justify-content: center; text-align: center;
       border: 1px solid rgba(255,255,255,0.6); box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
-      margin: 0; box-sizing: border-box; line-height: 1.4; word-break: break-word;
+      margin: 0; box-sizing: border-box; line-height: 1.4; letter-spacing: 0.5px;
     }
+    /* 佈告欄佔用剩下的寬度 */
     .notice-board { 
       flex: 1; min-width: 0; padding: 8px 10px; background: rgba(255, 255, 255, 0.5); border-radius: 12px; 
       font-size: 11px; color: var(--ys-deep-blue); font-weight: 600; 
       border: 1px dashed rgba(44, 68, 94, 0.4); text-align: left; line-height: 1.4; 
-      margin: 0; box-sizing: border-box; word-break: break-word;
+      margin: 0; box-sizing: border-box; word-break: break-word; display: flex; align-items: center;
     }
-    /* === 全新左右平衡排版 Header 結束 === */
 
     .app-container { width: 100%; max-width: 800px; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; }
     
@@ -185,7 +184,6 @@
   <div class="bg-layer" id="bgLayer"></div>
 
   <div class="scroll-wrapper">
-    <!-- 全新左右平衡排版 Header HTML -->
     <header>
       <div class="header-top">
         <div class="title-group">
@@ -199,7 +197,7 @@
       </div>
       
       <div class="header-bottom">
-        <div class="top-stat-bar" id="topStatCounter">資料庫載入中...</div>
+        <div class="top-stat-bar" id="topStatCounter">資料庫<br>載入中...</div>
         <div id="noticeBoard" class="notice-board" style="display: none;"></div>
       </div>
     </header>
@@ -286,7 +284,8 @@
         else totalCardsCount++; 
       });
 
-      document.getElementById('topStatCounter').innerText = `圖鑑總收錄：${totalAlbumsCount} 張專輯 / ${totalCardsCount} 張小卡`;
+      // 這裡改成斷三行的格式
+      document.getElementById('topStatCounter').innerHTML = `圖鑑總收錄<br>${totalAlbumsCount} 張專輯<br>${totalCardsCount} 張小卡`;
 
       let ownedAlbums = 0;
       let ownedCards = 0;
