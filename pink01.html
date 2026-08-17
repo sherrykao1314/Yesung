@@ -51,8 +51,9 @@
     }
     @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     
-    .move-title { color: #d32f2f; font-size: 1.4rem; font-weight: 900; margin: 0 0 10px 0; letter-spacing: 1px; }
+    .move-title { color: #d32f2f; font-size: 1.4rem; font-weight: 900; margin: 0 0 15px 0; letter-spacing: 1px; }
     .move-title span { font-size: 1.6rem; vertical-align: middle; }
+    
     .move-content { color: var(--ys-deep-blue); font-size: 0.95rem; line-height: 1.6; font-weight: 600; text-align: left; margin-bottom: 20px; }
     .move-highlight { background: #ffebee; color: #c62828; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
     
@@ -178,15 +179,22 @@
 </head>
 <body>
 
-  <!-- 🚨 搬家公告懸浮窗 -->
+  <!-- 🚨 搬家公告懸浮窗 (排版優化版) -->
   <div class="move-overlay" id="moveModal">
     <div class="move-modal">
       <div class="move-title"><span>⚠️</span> 重要公告</div>
       <div class="move-content">
-        本圖鑑網頁即日起 <span class="move-highlight">停止更新</span>，並將於 <b>9月1日</b> 正式關閉。<br><br>
-        為了提供大家更穩定、跨裝置同步的收藏體驗，系統已全面升級！請移駕至<b>「新版圖鑑中心」</b>申請專屬帳號密碼。<br><br>
-        <i>(💡 D&E 圖鑑已開放搶先申請，後續上線即可立即使用！)</i><br><br>
-        <span style="color: #c62828; font-size: 0.85rem;">⚠️ 注意：新系統上線後，原先儲存在此舊網頁的打勾紀錄將無法直接連通，可能會遺失，敬請見諒！</span>
+        本圖鑑網頁即日起 <span class="move-highlight">停止更新</span>，<br>
+        並將於 <b>9月1日</b> <span style="white-space: nowrap;">正式關閉。</span><br><br>
+        
+        為了提供更穩定、跨裝置同步的體驗，系統已全面升級！<br>
+        請移駕至<b>「新版圖鑑中心」</b><span style="white-space: nowrap;">申請專屬帳號密碼。</span><br><br>
+        
+        <i style="color: #555; font-size: 0.9em; display: block; text-align: center;">( 💡 D&E 圖鑑已開放搶先申請，<br><span style="white-space: nowrap;">後續上線即可立即使用！ )</span></i><br>
+        
+        <div style="color: #c62828; font-size: 0.85rem; background: #fff0f2; padding: 10px; border-radius: 8px; line-height: 1.6; border: 1px solid #ffcdd2;">
+          <b>⚠️ 注意：</b>新系統上線後，原先儲存在此舊網頁的打勾紀錄<span style="white-space: nowrap;">將無法直接連通</span>，可能會遺失，<span style="white-space: nowrap;">敬請見諒！</span>
+        </div>
       </div>
       <a href="https://sherrykao1314.github.io/CardIndex/" class="move-btn">前往新版圖鑑入口 🚀</a>
       <button class="move-close" onclick="document.getElementById('moveModal').style.display='none'">我知道了，暫時關閉</button>
