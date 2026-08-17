@@ -85,6 +85,8 @@
 
     .header-bottom { display: flex; gap: 8px; width: 100%; align-items: stretch; justify-content: space-between; }
     .top-stat-bar { flex: 0 0 36%; min-width: 0; font-size: 11px; font-weight: 700; color: var(--ys-deep-blue); background: rgba(255,255,255,0.75); padding: 8px 6px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin: 0; box-sizing: border-box; line-height: 1.4; letter-spacing: 0.5px; }
+    
+    /* 🎯 修正：公告欄樣式，加上了 display: none 預設隱藏，用 flex 來顯示 */
     .notice-board { flex: 1; min-width: 0; padding: 8px 10px; background: rgba(255, 255, 255, 0.75); border-radius: 12px; font-size: 11px; color: var(--ys-deep-blue); font-weight: 700; border: 1px dashed rgba(44, 68, 94, 0.5); text-align: left; line-height: 1.4; margin: 0; box-sizing: border-box; word-break: break-word; display: none; align-items: center; }
 
     .app-container { width: 100%; max-width: 800px; margin: 0 auto; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; }
@@ -270,7 +272,6 @@
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzFgYBlnqAprAlxhQD4XT6ld0GGMHFOxsMLXEmoa1l_Kf38kcOg45hxReg9FueAVQD9/exec"; 
 
-    // 新增金鑰設定
     const TOKEN_KEY = 'yesung_auth_token';
     const USERNAME_KEY = 'yesung_saved_username';
     const STORAGE_KEY = 'yesung_github_pc_list';
@@ -345,7 +346,7 @@
         .catch(e => resetLoginUI("網路錯誤，請稍後再試"));
     }
 
-    // 🏆 核心：無痛轉移機制
+    // 🏆 核心：無痛轉移機制 + 🎯修正：公告欄顯示方式
     function handleLoginSuccess(res) {
       if (res.token) {
         userToken = res.token;
@@ -373,7 +374,7 @@
 
       let needSyncToCloud = false;
 
-      // 3. 邏輯判斷：如果雲端沒資料，但手機有舊資料 👉 繼承手機資料並準備上傳
+      // 3. 邏輯判斷
       if (cloudOwned.length === 0 && localOwned.length > 0) {
         myCollection = localOwned;
         needSyncToCloud = true;
@@ -392,15 +393,17 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(myCollection));
       localStorage.setItem(WISH_KEY, JSON.stringify(myWishlist));
 
-      // 如果觸發了繼承，立刻將舊資料備份到雲端！
       if (needSyncToCloud) {
         syncDataToCloud();
       }
       
+      // 🎯 修正：設定公告欄顯示方式為 flex，確保排版正常
       if (res.noticeMessage && res.noticeMessage.toString().trim() !== "") {
         const noticeEl = document.getElementById('noticeBoard');
         noticeEl.innerHTML = `📢 ${res.noticeMessage.toString().replace(/\n/g, '<br>')}`;
-        noticeEl.style.display = 'inline-block';
+        noticeEl.style.display = 'flex';
+      } else {
+        document.getElementById('noticeBoard').style.display = 'none';
       }
 
       if (res.guestMessages) {
