@@ -28,37 +28,45 @@
       background-size: cover; background-position: center top; 
       z-index: -1; pointer-events: none; 
     }
-
-    /* 登入畫面樣式 */
-    #loginScreen {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(44, 68, 94, 0.85); backdrop-filter: blur(10px);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 9999;
-    }
-    .login-box {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px 20px; border-radius: 20px;
-      width: 85%; max-width: 350px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-      text-align: center;
-    }
-    .login-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--ys-deep-blue); margin-bottom: 5px; font-weight: 700;}
-    .bind-badge { display: none; background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-size: 0.85rem; font-weight: bold; border: 1px dashed #81c784; margin: 0 auto 15px auto; width: fit-content; }
-    .login-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 1rem; box-sizing: border-box; background: rgba(240, 245, 255, 0.5); transition: all 0.3s; }
-    .login-input:disabled { background-color: #e8f5e9; border-color: #81c784; color: #2e7d32; font-weight: 700; opacity: 0.9; }
-    .login-btn { width: 100%; padding: 12px; background: var(--ys-deep-blue); color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: 0.3s; }
-    .login-btn:active { transform: scale(0.98); }
-    #loginMsg { color: #e63946; font-size: 0.9rem; margin-top: 10px; min-height: 20px; font-weight: 600;}
-    .loader { border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid var(--ys-deep-blue); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 10px auto; display: none; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     
-    #mainApp { display: none; height: 100%; width: 100%; }
-
     .scroll-wrapper { 
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
       overflow-y: auto; -webkit-overflow-scrolling: touch; 
       padding: 10px 15px 120px 15px; box-sizing: border-box; display: block; 
+    }
+
+    /* 🚨 搬家公告懸浮窗樣式 */
+    .move-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 10000; display: flex; align-items: center; justify-content: center;
+      padding: 20px; box-sizing: border-box;
+    }
+    .move-modal {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px; padding: 25px 20px;
+      width: 100%; max-width: 400px; text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      position: relative; animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    
+    .move-title { color: #d32f2f; font-size: 1.4rem; font-weight: 900; margin: 0 0 10px 0; letter-spacing: 1px; }
+    .move-title span { font-size: 1.6rem; vertical-align: middle; }
+    .move-content { color: var(--ys-deep-blue); font-size: 0.95rem; line-height: 1.6; font-weight: 600; text-align: left; margin-bottom: 20px; }
+    .move-highlight { background: #ffebee; color: #c62828; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    
+    .move-btn {
+      display: inline-block; background: var(--ys-deep-blue); color: white;
+      text-decoration: none; font-weight: bold; font-size: 1.1rem;
+      padding: 14px 0; width: 100%; border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(44, 68, 94, 0.3); transition: 0.3s;
+      margin-bottom: 12px;
+    }
+    .move-btn:active { transform: scale(0.96); }
+    .move-close {
+      background: none; border: none; color: #888; font-size: 0.9rem;
+      text-decoration: underline; cursor: pointer; padding: 5px;
     }
     
     header { 
@@ -76,7 +84,6 @@
     .yesung-txt { font-size: 2.3rem; font-style: italic; font-weight: 700; letter-spacing: 0.5px; line-height: 1; }
     .album-txt { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; opacity: 0.95; line-height: 1; }
     .sub-credits { font-size: 0.75rem; color: white; font-family: 'Montserrat', sans-serif; opacity: 0.9; font-weight: 500; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
-    .user-badge { background: rgba(44, 68, 94, 0.8); color: white; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; margin-bottom: 5px; align-self: flex-start; display: inline-block; }
 
     .draw-btn { background: rgba(255,255,255,0.9); border: 1px solid var(--ys-blue-grey); border-radius: 12px; padding: 6px 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-shrink: 0; text-decoration: none; }
     .draw-btn:active { transform: scale(0.95); }
@@ -85,9 +92,7 @@
 
     .header-bottom { display: flex; gap: 8px; width: 100%; align-items: stretch; justify-content: space-between; }
     .top-stat-bar { flex: 0 0 36%; min-width: 0; font-size: 11px; font-weight: 700; color: var(--ys-deep-blue); background: rgba(255,255,255,0.75); padding: 8px 6px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin: 0; box-sizing: border-box; line-height: 1.4; letter-spacing: 0.5px; }
-    
-    /* 🎯 修正：公告欄樣式，加上了 display: none 預設隱藏，用 flex 來顯示 */
-    .notice-board { flex: 1; min-width: 0; padding: 8px 10px; background: rgba(255, 255, 255, 0.75); border-radius: 12px; font-size: 11px; color: var(--ys-deep-blue); font-weight: 700; border: 1px dashed rgba(44, 68, 94, 0.5); text-align: left; line-height: 1.4; margin: 0; box-sizing: border-box; word-break: break-word; display: none; align-items: center; }
+    .notice-board { flex: 1; min-width: 0; padding: 8px 10px; background: rgba(255, 255, 255, 0.75); border-radius: 12px; font-size: 11px; color: var(--ys-deep-blue); font-weight: 700; border: 1px dashed rgba(44, 68, 94, 0.5); text-align: left; line-height: 1.4; margin: 0; box-sizing: border-box; word-break: break-word; display: flex; align-items: center; }
 
     .app-container { width: 100%; max-width: 800px; margin: 0 auto; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; }
     
@@ -140,8 +145,8 @@
     .no-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(44, 68, 94, 0.05); color: var(--ys-deep-blue); font-size: 0.85em; font-weight: 700; text-align: center; padding: 10px; box-sizing: border-box; border: 1px dashed rgba(44, 68, 94, 0.2); line-height: 1.5; }
     .empty-msg { text-align: center; color: var(--ys-deep-blue); padding: 40px; font-style: italic; font-weight: 800; text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 1px 3px rgba(255,255,255,0.9); }
     
-    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.5); padding: 10px 15px 15px 15px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 999; padding-bottom: calc(15px + env(safe-area-inset-bottom)); pointer-events: none;}
-    .dual-stat-container { display: flex; flex-direction: column; gap: 8px; width: 100%; max-width: 800px; margin: 0 auto; } 
+    .bottom-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-top: 1px solid rgba(255,255,255,0.5); padding: 10px 15px 15px 15px; box-sizing: border-box; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 999; padding-bottom: calc(15px + env(safe-area-inset-bottom)); }
+    .dual-stat-container { display: flex; flex-direction: column; gap: 8px; } 
     
     .stat-row { display: flex; flex-direction: row; align-items: center; gap: 8px; }
     .stat-label { font-size: 11px; font-weight: 700; color: var(--ys-deep-blue); white-space: nowrap; width: 85px; }
@@ -173,81 +178,79 @@
 </head>
 <body>
 
-  <div class="bg-layer" id="bgLayer"></div>
-
-  <!-- 登入畫面 -->
-  <div id="loginScreen">
-    <div class="login-box">
-      <div class="login-title">Yesung Collection</div>
-      <div class="bind-badge" id="bindBadge">✅ 偵測到已綁定裝置</div>
-      <input type="text" id="usernameInput" class="login-input" placeholder="帳號">
-      <input type="password" id="passwordInput" class="login-input" placeholder="密碼">
-      <button class="login-btn" onclick="attemptLogin()">登入</button>
-      <div class="loader" id="loginLoader"></div>
-      <div id="loginMsg"></div>
+  <!-- 🚨 搬家公告懸浮窗 -->
+  <div class="move-overlay" id="moveModal">
+    <div class="move-modal">
+      <div class="move-title"><span>⚠️</span> 重要公告</div>
+      <div class="move-content">
+        本圖鑑網頁即日起 <span class="move-highlight">停止更新</span>，並將於 <b>9月1日</b> 正式關閉。<br><br>
+        為了提供大家更穩定、跨裝置同步的收藏體驗，系統已全面升級！請移駕至<b>「新版圖鑑中心」</b>申請專屬帳號密碼。<br><br>
+        <i>(💡 D&E 圖鑑已開放搶先申請，其他圖鑑陸續上線中！)</i><br><br>
+        <span style="color: #c62828; font-size: 0.85rem;">⚠️ 注意：新系統上線後，原先儲存在此舊網頁的打勾紀錄將無法直接連通，可能會遺失，敬請見諒！</span>
+      </div>
+      <a href="https://sherrykao1314.github.io/CardIndex/" class="move-btn">前往新版圖鑑入口 🚀</a>
+      <button class="move-close" onclick="document.getElementById('moveModal').style.display='none'">我知道了，暫時關閉</button>
     </div>
   </div>
 
-  <!-- 主程式區塊 -->
-  <div id="mainApp">
-    <div class="scroll-wrapper">
-      <header>
-        <div class="header-top">
-          <div class="title-group">
-            <span class="user-badge" id="currentUserBadge">User</span>
-            <h1 class="main-title"><span class="yesung-txt">Yesung</span><span class="album-txt">Album&Card</span></h1>
-            <div class="sub-credits">Threads @sherrykao1314</div>
-          </div>
-          <button class="draw-btn guest-btn" onclick="openModal()" style="pointer-events: auto;">
-            <span class="heart-icon">💬</span>
-            <span class="btn-txt" style="color: var(--ys-deep-blue);">公開留言板</span>
-          </button>
-        </div>
-        
-        <div class="header-bottom">
-          <div class="top-stat-bar" id="topStatCounter">資料庫<br>載入中...</div>
-          <div id="noticeBoard" class="notice-board"></div>
-        </div>
-      </header>
+  <div class="bg-layer" id="bgLayer"></div>
 
-      <div class="app-container">
-        <nav class="tab-nav">
-          <button class="tab-btn active" onclick="switchTab('wish', event)">❤ 想要</button>
-          <button class="tab-btn" onclick="switchTab('owned', event)">✓ 擁有</button>
-          <button class="tab-btn" onclick="switchTab('korea', event)">KOREA</button>
-          <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
-          <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
-          <button class="tab-btn" onclick="switchTab('other_album', event)">其他專</button>
-          <button class="tab-btn" onclick="switchTab('concert', event)">演唱會</button> 
-          <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
-          <button class="tab-btn" onclick="switchTab('calendar', event)">年曆</button>
-          <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
-        </nav>
-        <div class="sub-nav-container" id="subNavContainer"><nav class="sub-nav" id="subNav"></nav></div>
-        <div class="content-area" id="displayArea"><div class="empty-msg">與 Google 連線中...</div></div>
+  <div class="scroll-wrapper">
+    <header>
+      <div class="header-top">
+        <div class="title-group">
+          <h1 class="main-title"><span class="yesung-txt">Yesung</span><span class="album-txt">Album&Card</span></h1>
+          <div class="sub-credits">Threads @sherrykao1314</div>
+        </div>
+        <button class="draw-btn guest-btn" onclick="openModal()">
+          <span class="heart-icon">💬</span>
+          <span class="btn-txt" style="color: var(--ys-deep-blue);">公開留言板</span>
+        </button>
       </div>
-    </div>
+      
+      <div class="header-bottom">
+        <div class="top-stat-bar" id="topStatCounter">資料庫<br>載入中...</div>
+        <div id="noticeBoard" class="notice-board" style="display: none;"></div>
+      </div>
+    </header>
 
-    <div class="bottom-bar">
-      <div class="dual-stat-container">
-        <div class="stat-row">
-          <div class="stat-label" id="albumLabel">💿 專輯 0/0</div>
-          <div class="staff-container">
-            <div class="staff-fill fill-album" id="albumFill">
-              <span class="staff-icon">💿</span>
-            </div>
+    <div class="app-container">
+      <nav class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('wish', event)">❤ 想要</button>
+        <button class="tab-btn" onclick="switchTab('owned', event)">✓ 擁有</button>
+        <button class="tab-btn" onclick="switchTab('korea', event)">KOREA</button>
+        <button class="tab-btn" onclick="switchTab('japan', event)">JAPAN</button>
+        <button class="tab-btn" onclick="switchTab('group', event)">大隊專</button>
+        <button class="tab-btn" onclick="switchTab('other_album', event)">其他專</button>
+        <button class="tab-btn" onclick="switchTab('concert', event)">演唱會</button> 
+        <button class="tab-btn" onclick="switchTab('merch', event)">其他/周邊</button>
+        <button class="tab-btn" onclick="switchTab('calendar', event)">年曆</button>
+        <button class="tab-btn" onclick="switchTab('magazine', event)">雜誌</button>
+      </nav>
+      <div class="sub-nav-container" id="subNavContainer"><nav class="sub-nav" id="subNav"></nav></div>
+      <div class="content-area" id="displayArea"><div class="empty-msg">與 Google 連線中...</div></div>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="dual-stat-container">
+      <div class="stat-row">
+        <div class="stat-label" id="albumLabel">💿 專輯 0/0</div>
+        <div class="staff-container">
+          <div class="staff-fill fill-album" id="albumFill">
+            <span class="staff-icon">💿</span>
           </div>
-          <div class="stat-percent" id="albumPercent">0%</div>
         </div>
-        <div class="stat-row">
-          <div class="stat-label" id="cardLabel">🎵 小卡 0/0</div>
-          <div class="staff-container">
-            <div class="staff-fill fill-card" id="cardFill">
-              <span class="staff-icon">🎵</span>
-            </div>
+        <div class="stat-percent" id="albumPercent">0%</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat-label" id="cardLabel">🎵 小卡 0/0</div>
+        <div class="staff-container">
+          <div class="staff-fill fill-card" id="cardFill">
+            <span class="staff-icon">🎵</span>
           </div>
-          <div class="stat-percent" id="cardPercent">0%</div>
         </div>
+        <div class="stat-percent" id="cardPercent">0%</div>
       </div>
     </div>
   </div>
@@ -272,183 +275,19 @@
   <script>
     const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzFgYBlnqAprAlxhQD4XT6ld0GGMHFOxsMLXEmoa1l_Kf38kcOg45hxReg9FueAVQD9/exec"; 
 
-    const TOKEN_KEY = 'yesung_auth_token';
-    const USERNAME_KEY = 'yesung_saved_username';
     const STORAGE_KEY = 'yesung_github_pc_list';
     const WISH_KEY = 'yesung_wish_list'; 
     
-    let userToken = localStorage.getItem(TOKEN_KEY);
-    let currentUsername = localStorage.getItem(USERNAME_KEY) || "";
     let myCollection = [];
     let myWishlist = [];
     let itemDictionary = {}; 
     let cardLookup = {}; 
     let globalMessages = []; 
-    let syncTimeout = null;
-    let allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
-    let currentTab = 'wish'; 
-
-    window.onload = function() {
-      if (userToken) {
-        document.getElementById('bindBadge').style.display = 'block';
-        document.getElementById('usernameInput').value = currentUsername || "已儲存的帳號";
-        document.getElementById('passwordInput').value = "********";
-        document.getElementById('usernameInput').disabled = true;
-        document.getElementById('passwordInput').disabled = true;
-        document.querySelector('.login-btn').style.display = 'none';
-        document.getElementById('loginLoader').style.display = 'block';
-        
-        const msgEl = document.getElementById('loginMsg');
-        msgEl.innerText = "極速登入中...";
-        msgEl.style.color = "#2e7d32";
-        
-        executeInitLoad(userToken);
-      } else {
-        document.getElementById('loginMsg').innerText = "請輸入帳號密碼登入";
-      }
-    };
-
-    function executeInitLoad(token) {
-      fetch(`${GAS_API_URL}?action=initLoad&token=${encodeURIComponent(token)}&t=${new Date().getTime()}`)
-        .then(res => res.json())
-        .then(res => {
-          if (res.success) {
-            handleLoginSuccess(res);
-          } else {
-            resetLoginUI(res.message || "憑證失效，請重新登入");
-          }
-        })
-        .catch(e => resetLoginUI("網路不穩，請重新整理"));
-    }
-
-    function attemptLogin() {
-      const u = document.getElementById('usernameInput').value.trim();
-      const p = document.getElementById('passwordInput').value.trim();
-      if (!u || !p) {
-        document.getElementById('loginMsg').innerText = "帳號與密碼不能空白";
-        return;
-      }
-      
-      document.getElementById('loginMsg').innerText = "系統驗證中...";
-      document.getElementById('loginMsg').style.color = "#e63946";
-      document.getElementById('loginLoader').style.display = "block";
-      document.querySelector('.login-btn').style.display = "none";
-
-      fetch(`${GAS_API_URL}?action=loginComplete&username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}&t=${new Date().getTime()}`)
-        .then(res => res.json())
-        .then(res => {
-          if (res.success) {
-            handleLoginSuccess(res);
-          } else {
-            resetLoginUI(res.message || "登入失敗");
-          }
-        })
-        .catch(e => resetLoginUI("網路錯誤，請稍後再試"));
-    }
-
-    // 🏆 核心：無痛轉移機制 + 🎯修正：公告欄顯示方式
-    function handleLoginSuccess(res) {
-      if (res.token) {
-        userToken = res.token;
-        localStorage.setItem(TOKEN_KEY, userToken);
-      }
-      currentUsername = res.username;
-      localStorage.setItem(USERNAME_KEY, currentUsername);
-      document.getElementById('currentUserBadge').innerText = `ID: ${currentUsername}`;
-      
-      // 1. 抓取雲端資料
-      let cloudOwned = [];
-      let cloudWish = [];
-      try {
-        cloudOwned = res.ownedData ? JSON.parse(res.ownedData) : [];
-        cloudWish = res.wishData ? JSON.parse(res.wishData) : [];
-      } catch(e) {}
-
-      // 2. 抓取手機本地舊資料
-      let localOwned = [];
-      let localWish = [];
-      try {
-        localOwned = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        localWish = JSON.parse(localStorage.getItem(WISH_KEY)) || [];
-      } catch(e) {}
-
-      let needSyncToCloud = false;
-
-      // 3. 邏輯判斷
-      if (cloudOwned.length === 0 && localOwned.length > 0) {
-        myCollection = localOwned;
-        needSyncToCloud = true;
-      } else {
-        myCollection = cloudOwned;
-      }
-
-      if (cloudWish.length === 0 && localWish.length > 0) {
-        myWishlist = localWish;
-        needSyncToCloud = true;
-      } else {
-        myWishlist = cloudWish;
-      }
-
-      // 4. 寫回手機記憶體
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(myCollection));
-      localStorage.setItem(WISH_KEY, JSON.stringify(myWishlist));
-
-      if (needSyncToCloud) {
-        syncDataToCloud();
-      }
-      
-      // 🎯 修正：設定公告欄顯示方式為 flex，確保排版正常
-      if (res.noticeMessage && res.noticeMessage.toString().trim() !== "") {
-        const noticeEl = document.getElementById('noticeBoard');
-        noticeEl.innerHTML = `📢 ${res.noticeMessage.toString().replace(/\n/g, '<br>')}`;
-        noticeEl.style.display = 'flex';
-      } else {
-        document.getElementById('noticeBoard').style.display = 'none';
-      }
-
-      if (res.guestMessages) {
-        globalMessages = res.guestMessages;
-      }
-
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('mainApp').style.display = 'block';
-      processData(res.cards);
-    }
-
-    function resetLoginUI(msg) {
-      localStorage.removeItem(TOKEN_KEY);
-      userToken = null;
-      document.getElementById('bindBadge').style.display = 'none';
-      
-      const uInput = document.getElementById('usernameInput');
-      const pInput = document.getElementById('passwordInput');
-      uInput.disabled = false;
-      pInput.disabled = false;
-      uInput.value = currentUsername || ""; 
-      pInput.value = "";
-      
-      document.getElementById('loginLoader').style.display = "none";
-      document.querySelector('.login-btn').style.display = "block";
-      
-      const msgEl = document.getElementById('loginMsg');
-      msgEl.innerText = msg;
-      msgEl.style.color = "#e63946";
-    }
-
-    function syncDataToCloud() {
-      if(syncTimeout) clearTimeout(syncTimeout);
-      syncTimeout = setTimeout(() => {
-        fetch(GAS_API_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'syncData',
-            token: userToken,
-            ownedData: JSON.stringify(myCollection),
-            wishData: JSON.stringify(myWishlist)
-          })
-        }).catch(e => console.log("背景同步失敗"));
-      }, 1500); 
-    }
+    
+    try {
+      myCollection = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      myWishlist = JSON.parse(localStorage.getItem(WISH_KEY)) || [];
+    } catch(e) {}
 
     function updateCounter() {
       let totalAlbumsCount = 0;
@@ -478,6 +317,28 @@
       document.getElementById('cardPercent').innerText = `${cardPercent}%`;
       document.getElementById('cardFill').style.width = `${cardPercent}%`;
     }
+
+    let allData = { korea: {}, japan: {}, group: {}, other_album: {}, concert: {}, merch: {}, calendar: {}, magazine: {} };
+    let currentTab = 'wish'; 
+
+    fetch(GAS_API_URL + "?t=" + new Date().getTime())
+      .then(response => response.json())
+      .then(result => {
+        if (result.message && result.message.toString().trim() !== "") {
+          const noticeEl = document.getElementById('noticeBoard');
+          noticeEl.innerHTML = `📢 ${result.message.toString().replace(/\n/g, '<br>')}`;
+          noticeEl.style.display = 'inline-block';
+        }
+        
+        if (result.guestMessages) {
+          globalMessages = result.guestMessages;
+        }
+
+        processData(result.cards);
+      })
+      .catch(error => {
+        document.getElementById('displayArea').innerHTML = '<div class="empty-msg">讀取資料失敗，請重新整理。</div>';
+      });
 
     function openModal() {
       document.getElementById('guestbookModal').style.display = 'flex';
@@ -776,7 +637,6 @@
           div.classList.add('in-wishlist');
         }
         localStorage.setItem(WISH_KEY, JSON.stringify(myWishlist));
-        syncDataToCloud(); 
         if (currentTab === 'wish') switchTab('wish'); 
       });
 
@@ -789,7 +649,7 @@
         }
         localStorage.setItem(STORAGE_KEY, JSON.stringify(myCollection));
         updateCounter();
-        syncDataToCloud(); 
+        
         if (currentTab === 'owned') switchTab('owned');
       });
 
