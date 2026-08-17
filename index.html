@@ -19,7 +19,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Montserrat:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
   
   <style>
-    /* 將玻璃背景稍微調濃一點點，確保內層元素對比度 */
     :root { --ys-blue-grey: #a1b0bd; --ys-deep-blue: #2c445e; --glass: rgba(255, 255, 255, 0.35); --pink-magic: #ff85a2; }
     html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: 'Noto Sans TC', sans-serif; }
     
@@ -35,6 +34,41 @@
       overflow-y: auto; -webkit-overflow-scrolling: touch; 
       padding: 10px 15px 120px 15px; box-sizing: border-box; display: block; 
     }
+
+    /* 🚨 搬家公告懸浮窗樣式 */
+    .move-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      z-index: 10000; display: flex; align-items: center; justify-content: center;
+      padding: 20px; box-sizing: border-box;
+    }
+    .move-modal {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px; padding: 25px 20px;
+      width: 100%; max-width: 400px; text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      position: relative; animation: popUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popUp { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    
+    .move-title { color: #d32f2f; font-size: 1.4rem; font-weight: 900; margin: 0 0 15px 0; letter-spacing: 1px; }
+    .move-title span { font-size: 1.6rem; vertical-align: middle; }
+    
+    .move-content { color: var(--ys-deep-blue); font-size: 0.95rem; line-height: 1.6; font-weight: 600; text-align: left; margin-bottom: 20px; }
+    .move-highlight { background: #ffebee; color: #c62828; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+    
+    .move-btn {
+      display: inline-block; background: var(--ys-deep-blue); color: white;
+      text-decoration: none; font-weight: bold; font-size: 1.1rem;
+      padding: 14px 0; width: 100%; border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(44, 68, 94, 0.3); transition: 0.3s;
+      margin-bottom: 12px;
+    }
+    .move-btn:active { transform: scale(0.96); }
+    .move-close {
+      background: none; border: none; color: #888; font-size: 0.9rem;
+      text-decoration: underline; cursor: pointer; padding: 5px;
+    }
     
     header { 
       width: 100%; max-width: 800px; margin: 0 auto 12px auto;
@@ -47,15 +81,9 @@
     
     .header-top { display: flex; justify-content: space-between; align-items: center; }
     .title-group { text-align: left; display: flex; flex-direction: column; gap: 2px; }
-    /* 加強主標題陰影 */
-    .main-title { 
-      font-family: 'Playfair Display', serif; color: white; margin: 0; 
-      display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-    }
+    .main-title { font-family: 'Playfair Display', serif; color: white; margin: 0; display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; text-shadow: 0 2px 6px rgba(0,0,0,0.4); }
     .yesung-txt { font-size: 2.3rem; font-style: italic; font-weight: 700; letter-spacing: 0.5px; line-height: 1; }
     .album-txt { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; opacity: 0.95; line-height: 1; }
-    /* 加強副標題陰影 */
     .sub-credits { font-size: 0.75rem; color: white; font-family: 'Montserrat', sans-serif; opacity: 0.9; font-weight: 500; text-shadow: 0 2px 4px rgba(0,0,0,0.4); }
 
     .draw-btn { background: rgba(255,255,255,0.9); border: 1px solid var(--ys-blue-grey); border-radius: 12px; padding: 6px 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.1); flex-shrink: 0; text-decoration: none; }
@@ -64,49 +92,31 @@
     .draw-btn .btn-txt { font-size: 10px; font-weight: bold; white-space: nowrap; color: var(--ys-deep-blue); margin-top: 2px; }
 
     .header-bottom { display: flex; gap: 8px; width: 100%; align-items: stretch; justify-content: space-between; }
-    /* 將資訊列背景底色調濃至 0.75，確保文字絕對清晰 */
     .top-stat-bar { flex: 0 0 36%; min-width: 0; font-size: 11px; font-weight: 700; color: var(--ys-deep-blue); background: rgba(255,255,255,0.75); padding: 8px 6px; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin: 0; box-sizing: border-box; line-height: 1.4; letter-spacing: 0.5px; }
     .notice-board { flex: 1; min-width: 0; padding: 8px 10px; background: rgba(255, 255, 255, 0.75); border-radius: 12px; font-size: 11px; color: var(--ys-deep-blue); font-weight: 700; border: 1px dashed rgba(44, 68, 94, 0.5); text-align: left; line-height: 1.4; margin: 0; box-sizing: border-box; word-break: break-word; display: flex; align-items: center; }
 
-    .app-container { 
-      width: 100%; max-width: 800px; margin: 0 auto;
-      background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; 
-    }
+    .app-container { width: 100%; max-width: 800px; margin: 0 auto; background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid rgba(255,255,255,0.4); box-shadow: 0 8px 32px rgba(0,0,0,0.2); padding: 12px 10px; box-sizing: border-box; }
     
-    /* 導覽列背景加白，確保字體清晰 */
     .tab-nav { display: flex; flex-wrap: nowrap; justify-content: flex-start; gap: 6px; background: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.7); border-radius: 15px; padding: 6px; margin-bottom: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
     .tab-nav::-webkit-scrollbar { display: none; }
-    
-    /* 預設未點擊狀態：加深字體顏色、加粗 */
     .tab-btn { flex: 0 0 auto; padding: 8px 12px; background: transparent; border: none; border-radius: 12px; font-size: 0.9em; color: var(--ys-deep-blue); cursor: pointer; transition: 0.3s; font-weight: 700; white-space: nowrap; }
-    
-    /* 預設點擊狀態：深藍底白字，對比最強 */
     .tab-btn.active { background: var(--ys-deep-blue); color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-    
-    /* 想要：未點擊 (深粉紅)，點擊 (粉紅底白字) */
     .tab-btn[onclick*="wish"] { color: #c2185b; }
     .tab-btn[onclick*="wish"].active { background: #d84b6b; color: #fff; box-shadow: 0 2px 8px rgba(216, 75, 107, 0.4); }
-
-    /* 擁有：未點擊 (深綠)，點擊 (綠底白字) */
     .tab-btn[onclick*="owned"] { color: #1b5e20; }
     .tab-btn[onclick*="owned"].active { background: #2e7d32; color: #fff; box-shadow: 0 2px 8px rgba(46, 125, 50, 0.4); }
 
     .sub-nav-container { width: 100%; overflow-x: auto; white-space: nowrap; margin-bottom: 10px; scrollbar-width: none; }
     .sub-nav-container::-webkit-scrollbar { display: none; }
     .sub-nav { display: inline-flex; gap: 8px; padding: 2px 5px; }
-    
-    /* 子導覽列：背景加白、字體加粗深藍 */
     .sub-btn { padding: 8px 18px; background: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.9); border-radius: 20px; font-size: 0.85em; color: var(--ys-deep-blue); cursor: pointer; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: 0.2s; }
     .sub-btn.active { background: var(--ys-deep-blue); color: #fff; border-color: var(--ys-deep-blue); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
     
-    /* 段落標題增加強烈白色光暈，避免被深色背景吃掉 */
     .album-header { font-family: 'Montserrat', sans-serif; font-size: 1.1em; font-weight: 800; text-transform: uppercase; color: var(--ys-deep-blue); margin-top: 15px; margin-bottom: 8px; text-align: center; border-bottom: 2px solid rgba(0,0,0,0.15); padding-bottom: 8px; letter-spacing: 2px; text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 1px 3px rgba(255,255,255,0.9); }
     .section-title { font-size: 1em; color: var(--ys-deep-blue); margin: 15px 0 10px 0; font-weight: 800; display: flex; align-items: center; gap: 6px; text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 1px 3px rgba(255,255,255,0.9); }
-    
     .wish-view .section-title, .owned-view .section-title { margin-top: 5px; }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(105px, 1fr)); gap: 12px; margin-bottom: 20px; align-items: start; }
-    
     .mini-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; }
     .mini-grid .card { padding: 4px; border-radius: 8px; }
     .mini-grid .card-name { font-size: 9px; margin-top: 4px; line-height: 1.15; }
@@ -133,7 +143,6 @@
     .card-source { font-size: 9px; color: #666; margin-top: 5px; text-align: center; font-style: normal; display: none; line-height: 1.25; word-wrap: break-word; }
     .wish-view .card-source, .owned-view .card-source { display: block; }
 
-    /* 無資料提示增加發光效果 */
     .no-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(44, 68, 94, 0.05); color: var(--ys-deep-blue); font-size: 0.85em; font-weight: 700; text-align: center; padding: 10px; box-sizing: border-box; border: 1px dashed rgba(44, 68, 94, 0.2); line-height: 1.5; }
     .empty-msg { text-align: center; color: var(--ys-deep-blue); padding: 40px; font-style: italic; font-weight: 800; text-shadow: 0 0 8px rgba(255,255,255,0.9), 0 1px 3px rgba(255,255,255,0.9); }
     
@@ -169,6 +178,28 @@
   </style>
 </head>
 <body>
+
+  <!-- 🚨 搬家公告懸浮窗 (排版優化版) -->
+  <div class="move-overlay" id="moveModal">
+    <div class="move-modal">
+      <div class="move-title"><span>⚠️</span> 重要公告</div>
+      <div class="move-content">
+        本圖鑑網頁即日起 <span class="move-highlight">停止更新</span>，<br>
+        並將於 <b>9月1日</b> <span style="white-space: nowrap;">正式關閉。</span><br><br>
+        
+        為了提供更穩定、跨裝置同步的體驗，系統已全面升級！<br>
+        請移駕至<b>「新版圖鑑中心」</b><span style="white-space: nowrap;">申請專屬帳號密碼。</span><br><br>
+        
+        <i style="color: #555; font-size: 0.9em; display: block; text-align: center;">( 💡 D&E 圖鑑已開放搶先申請，<br><span style="white-space: nowrap;">後續上線即可立即使用！ )</span></i><br>
+        
+        <div style="color: #c62828; font-size: 0.85rem; background: #fff0f2; padding: 10px; border-radius: 8px; line-height: 1.6; border: 1px solid #ffcdd2;">
+          <b>⚠️ 注意：</b>新系統上線後，原先儲存在此舊網頁的打勾紀錄<span style="white-space: nowrap;">將無法直接連通</span>，可能會遺失，<span style="white-space: nowrap;">敬請見諒！</span>
+        </div>
+      </div>
+      <a href="https://sherrykao1314.github.io/CardIndex/" class="move-btn">前往新版圖鑑入口 🚀</a>
+      <button class="move-close" onclick="document.getElementById('moveModal').style.display='none'">我知道了，暫時關閉</button>
+    </div>
+  </div>
 
   <div class="bg-layer" id="bgLayer"></div>
 
